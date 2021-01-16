@@ -1,3 +1,5 @@
+-- note: each record is a unique interview-interviewer feedback form combo
+-- an interview can have multiple interviewers, and interviewers can have multiple feedback forms
 with interview as (
 
     select *
@@ -19,7 +21,6 @@ join_w_opportunity as (
         opportunity.contact_location as interviewee_location,
         opportunity.origin as interviewee_origin,
         opportunity.contact_id as interviewee_contact_id,
-        -- get time diff 
         {{ dbt_utils.datediff('opportunity.created_at', 'interview.occurred_at', 'day') }} as days_since_opp_created,
         opportunity.last_advanced_at > interview.occurred_at as has_advanced_since_interview
 
@@ -27,4 +28,5 @@ join_w_opportunity as (
     join opportunity using(opportunity_id)
 )
 
+-- is hiring manager
 select * from join_w_opportunity

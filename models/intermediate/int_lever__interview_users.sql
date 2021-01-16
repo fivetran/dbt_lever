@@ -14,6 +14,14 @@ interviewer_user as (
     from {{ var('interviewer_user') }}
 ),
 
+posting_inteview as (
+
+    select *
+    from {{ var('posting_interview') }}
+),
+
+-- do posting_requisition to get hirign manager
+
 -- there can be multiple interviewers for one interview (on top of multiple people belonging to a panel)
 grab_interviewers as (
 
