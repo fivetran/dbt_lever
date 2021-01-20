@@ -14,17 +14,16 @@ interviewer_user as (
     from {{ var('interviewer_user') }}
 ),
 
-posting_inteview as (
-
-    select *
-    from {{ var('posting_interview') }}
-),
-
 -- do posting_requisition to get hirign manager
 posting_requisition as (
 
-    select *
+    select 
+        interview_id,
+        -- there can be multiple postings per interview???
+        max(hiring_manager_user_id) as hiring_manager_user_id
     from {{ ref('int_lever__posting_requisition_interview') }}
+
+    group by interview_id
 ),
 
 grab_hiring_managers as (
@@ -51,7 +50,6 @@ grab_interviewers as (
 
 -- necessary users are 
 -- interviewer, completer of feedback, recruiter coordinator , panel coordinator, hiring manager
--- ack this is fanning out
 grab_user_names as (
 
     select
