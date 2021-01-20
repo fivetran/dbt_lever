@@ -21,21 +21,37 @@ posting_inteview as (
 ),
 
 -- do posting_requisition to get hirign manager
+posting_requisition as (
+
+    select *
+    from {{ ref('int_lever__posting_requisition_interview') }}
+),
+
+grab_hiring_managers as (
+
+    select 
+        interview_panel_feedback.*,
+        posting_requisition.hiring_manager_user_id
+    from interview_panel_feedback
+    left join posting_requisition 
+        on interview_panel_feedback.interview_id = posting_requisition.interview_id
+),
 
 -- there can be multiple interviewers for one interview (on top of multiple people belonging to a panel)
 grab_interviewers as (
 
     select
-        interview_panel_feedback.*,
+        grab_hiring_managers.*,
         interviewer_user.user_id as interviewer_user_id
-    from interview_panel_feedback
+    from grab_hiring_managers
     join interviewer_user 
-        on interview_panel_feedback.interview_id = interviewer_user.interview_id
+        on grab_hiring_managers.interview_id = interviewer_user.interview_id
 
 ),
 
 -- necessary users are 
--- interviewer, completer of feedback, recruiter coordinator , panel coordinator
+-- interviewer, completer of feedback, recruiter coordinator , panel coordinator, hiring manager
+-- ack this is fanning out
 grab_user_names as (
 
     select
@@ -44,7 +60,10 @@ grab_user_names as (
         interviewer.email as interviewer_email,
         feedback_completer.full_name as feedback_completer_name,
         interview_coordinator.full_name as interview_coordinator_name,
-        panel_coordinator.full_name as panel_coordinator_name
+        panel_coordinator.full_name as panel_coordinator_name,
+        hiring_manager.full_name as hiring_manager_name,
+
+        coalesce(hiring_manager.user_id, '') = interviewer.user_id as interviewer_is_hiring_manager
 
     from 
     grab_interviewers
@@ -59,6 +78,9 @@ grab_user_names as (
 
     left join lever_user as panel_coordinator 
         on grab_interviewers.panel_creator_user_id = panel_coordinator.user_id
+
+    left join lever_user as hiring_manager 
+        on grab_interviewers.hiring_manager_user_id = hiring_manager.user_id
 )
 
 select * from grab_user_names

@@ -13,6 +13,12 @@ opportunity as (
     from {{ var('opportunity') }}
 ),
 
+{# posting_requisition as (
+
+    select *
+    from {{ var('int_lever__posting_requisition_interview') }}
+), #}
+
 join_w_opportunity as (
 
     select
@@ -27,6 +33,16 @@ join_w_opportunity as (
     from interview
     join opportunity using(opportunity_id)
 )
+{# ,
+
+final as (
+
+    select 
+        join_w_opportunity.*
+    
+    from join_w_opportunity
+    left join posting_requisition
+) #}
 
 -- is hiring manager
 select * from join_w_opportunity

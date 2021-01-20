@@ -22,6 +22,7 @@ requisition_posting as (
     from {{ var('requisition_posting') }}
 ),
 
+-- grabbing inteview to get hiring manager of posting into the interiew enhanced model
 join_w_interview as (
 
     select 
@@ -36,8 +37,8 @@ join_w_requisition as (
 
     select
         join_w_interview.*,
-        
-        -- if a posting has multiple 
+
+        -- if a posting has multiple requisitions we'll take the max's 
         max(requisition.hiring_manager_user_id) as hiring_manager_user_id,
         max(requisition.requisition_id is not null) as has_requisition,
         max(requisition.is_backfill) as requisition_is_backfill,
@@ -61,4 +62,4 @@ join_w_requisition as (
     {{ dbt_utils.group_by(n=16) }}
 )
 
-select * from join_w_interview
+select * from join_w_requisition
