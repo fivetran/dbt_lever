@@ -15,7 +15,8 @@ agg_applications as (
         sum(case when type = 'posting' or type = 'agency' then 1 else 0 end) as count_posting_applications,
         sum(case when type = 'user' then 1 else 0 end) as count_manual_user_applications,
 
-        count(distinct opportunity_id) as count_opportunities
+        count(distinct opportunity_id) as count_opportunities,
+        count(distinct case when archived_at is null then opportunity_id end) as count_open_opportunities
 
     from application
 

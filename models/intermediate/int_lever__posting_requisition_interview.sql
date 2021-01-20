@@ -10,6 +10,7 @@ posting_interview as (
     from {{ var('posting_interview') }}
 ),
 
+-- todo: include passthrough columns for requisition
 requisition as (
     
     select *
