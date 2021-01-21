@@ -14,20 +14,6 @@ interviewer_user as (
     from {{ var('interviewer_user') }}
 ),
 
--- todo: get this from opportunity -- application actually 
-
-{# 
-grab_hiring_managers as (
-
-    select 
-        interview_feedback.*,
-        opportunity_application.posting_hiring_manager_user_id as hiring_manager_user_id
-
-    from interview_feedback
-    left join opportunity_application 
-        on opportunity_application.opportunity_id = interview_feedback.opportunity_id
-), #}
-
 -- there can be multiple interviewers for one interview
 grab_interviewers as (
 
@@ -50,9 +36,6 @@ grab_user_names as (
         interviewer.email as interviewer_email,
         feedback_completer.full_name as feedback_completer_name,
         interview_coordinator.full_name as interview_coordinator_name
-        {# hiring_manager.full_name as hiring_manager_name, #}
-
-        {# coalesce(hiring_manager.user_id, '') = interviewer.user_id as interviewer_is_hiring_manager #}
 
     from 
     grab_interviewers
@@ -65,8 +48,6 @@ grab_user_names as (
     left join lever_user as interview_coordinator
         on grab_interviewers.creator_user_id = interview_coordinator.user_id
 
-    {# left join lever_user as hiring_manager 
-        on grab_interviewers.hiring_manager_user_id = hiring_manager.user_id #}
 )
 
 -- unique row for every interview-interviewer-feedback combo

@@ -23,6 +23,7 @@ agg_applications as (
     group by 1
 ),
 
+-- todo: decide to keep this?
 order_hiring_managers as (
 
     select 

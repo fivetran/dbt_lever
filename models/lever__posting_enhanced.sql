@@ -1,4 +1,10 @@
-with posting_applications as (
+with posting as (
+
+    select *
+    from {{ var('posting') }}
+),
+
+posting_applications as (
 
     select *
     from {{ ref('int_lever__posting_applications') }}
@@ -10,37 +16,44 @@ posting_interviews as (
     from {{ ref('int_lever__posting_interviews') }}
 ),
 
--- one line per posting
+posting_requisitions as (
 
--- join posting_applications
--- join posting_interviews
+    select 
+        posting_id,
+        count(requisition_id) as count_requisitions
+    from {{ var('requisition_posting') }}
 
--- count requisitions
--- has_posting (boolean)
+    group by 1
+),
 
--- enhance w/ interview metrics
--- number of interviews 
--- number of unique interviewees
-
-posting as (
-
-    select *
-    from {{ var('posting') }}
-)
-{# 
 final as (
 
     select 
         posting.*,
-        coalesce(posting_applications.count_opportunities, 0) as count_opportunities,
-        coalesce(posting_applications.count_open_opportunities, 0) as count_open_opportunities,
+        posting_applications.first_app_sent_at,
+
         coalesce(posting_applications.count_referred_applications, 0) as count_referred_applications,
         coalesce(posting_applications.count_posting_applications, 0) as count_posting_applications,
         coalesce(posting_applications.count_manual_user_applications, 0) as count_manual_user_applications,
-        posting_applications.first_app_sent_at
+        coalesce(posting_applications.count_opportunities, 0) as count_opportunities,
+        coalesce(posting_applications.count_open_opportunities, 0) as count_open_opportunities,
 
-    from posting 
-    left join posting_applications using(posting_id)
-) #}
+        coalesce(posting_interviews.count_interviews, 0) as count_interviews,
+        coalesce(posting_interviews.count_interviewees, 0) as count_interviewees,
 
-select * from posting
+        coalesce(posting_requisitions.count_requisitions, 0) as count_requisitions,
+        posting_requisitions.posting_id is not null as has_requisition
+
+
+    from posting
+
+    left join posting_applications
+        on posting.posting_id = posting_applications.posting_id
+    left join posting_interviews
+        on posting.posting_id = posting_interviews.posting_id
+    left join posting_requisitions
+        on posting.posting_id = posting_requisitions.posting_id
+)
+
+
+select * from final
