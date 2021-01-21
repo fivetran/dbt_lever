@@ -5,6 +5,7 @@ with interview as (
 
 ),
 
+-- join with this to limit noise 
 interview_feedback as (
 
     select *
@@ -19,31 +20,10 @@ feedback_form as (
     where deleted_at is null
 ),
 
-panel as (
-
-    select *
-    from {{ var('panel') }}
-),
-
-join_interview_w_panel as (
-
-    select
-        interview.*,
-        panel.canceled_at as panel_canceled_at,
-        panel.creator_user_id as panel_creator_user_id,
-        panel.last_interview_ends_at as panel_ends_at,
-        panel.first_interview_starts_at as panel_starts_at,
-        panel.note as panel_note
-        
-    from 
-    interview
-    left join panel on interview.panel_id = panel.panel_id
-),
-
 join_w_feedback as (
 
     select
-        join_interview_w_panel.*,
+        interview.*,
         feedback_form.feedback_form_id,
         feedback_form.creator_user_id as feedback_completer_user_id,
         feedback_form.completed_at as feedback_completed_at,
@@ -53,11 +33,14 @@ join_w_feedback as (
         feedback_form.form_title as feedback_form_title
 
 
-    from join_interview_w_panel
+    from interview
     -- todo: not sure if this should be a left join.....
     -- it fans out if it is
+    -- join with this to limit noise 
+    join interview_feedback 
+        on interview.interview_id = interview_feedback.interview_id
     join feedback_form 
-        on join_interview_w_panel.interview_id = feedback_form.interview_id
+        on interview_feedback.feedback_form_id = feedback_form.feedback_form_id
 )
 
 select *

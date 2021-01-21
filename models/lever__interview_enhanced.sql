@@ -10,13 +10,17 @@ with interview as (
 opportunity as (
 
     select *
-    from {{ var('opportunity') }}
+    from {{ ref('int_lever__opportunity_users') }}
 ),
 
 join_w_opportunity as (
 
     select
         interview.*,
+        opportunity.opportunity_owner_name,
+        opportunity.referrer_name,
+        opportunity.hiring_manager_name,
+        coalesce(lower(interview.inteviewer_name) = lower(opportunity.hiring_manager_name), false) as interviewee_is_hiring_manager,
         opportunity.contact_name as interviewee_name,
         opportunity.contact_location as interviewee_location,
         opportunity.origin as interviewee_origin,
@@ -27,16 +31,5 @@ join_w_opportunity as (
     from interview
     join opportunity using(opportunity_id)
 )
-{# ,
 
-final as (
-
-    select 
-        join_w_opportunity.*
-    
-    from join_w_opportunity
-    left join posting_requisition
-) #}
-
--- is hiring manager
 select * from join_w_opportunity
