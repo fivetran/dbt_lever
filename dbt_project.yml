@@ -33,5 +33,3 @@ vars:
 
 models: 
   materialized: table
-
-profile: dev_bigquery_dbt_testing

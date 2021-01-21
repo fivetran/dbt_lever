@@ -13,12 +13,6 @@ opportunity as (
     from {{ var('opportunity') }}
 ),
 
-{# posting_requisition as (
-
-    select *
-    from {{ var('int_lever__posting_requisition_interview') }}
-), #}
-
 join_w_opportunity as (
 
     select

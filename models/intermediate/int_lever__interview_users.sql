@@ -14,26 +14,41 @@ interviewer_user as (
     from {{ var('interviewer_user') }}
 ),
 
--- do posting_requisition to get hirign manager
-posting_requisition as (
+-- to get the hiring manager
+posting_applications as (
+
+    select *
+    from {{ ref('int_lever__posting_applications') }}
+
+),
+
+order_posting_interview as (
 
     select 
-        interview_id,
-        -- there can be multiple postings per interview???
-        max(hiring_manager_user_id) as hiring_manager_user_id
-    from {{ ref('int_lever__posting_requisition_interview') }}
+        *,
+        row_number() over(partition by interview_id order by _fivetran_synced desc) as row_num 
 
-    group by interview_id
+    from {{ var('posting_interview') }}
+),
+
+last_posting_interview as (
+
+    select *
+    from order_posting_interview
+    where row_num = 1
 ),
 
 grab_hiring_managers as (
 
     select 
         interview_panel_feedback.*,
-        posting_requisition.hiring_manager_user_id
+        posting_applications.posting_hiring_manager_user_id as hiring_manager_user_id
+
     from interview_panel_feedback
-    left join posting_requisition 
-        on interview_panel_feedback.interview_id = posting_requisition.interview_id
+    left join last_posting_interview 
+        on interview_panel_feedback.interview_id = last_posting_interview.interview_id
+    left join posting_applications 
+        on last_posting_interview.posting_id = posting_applications.posting_id
 ),
 
 -- there can be multiple interviewers for one interview (on top of multiple people belonging to a panel)

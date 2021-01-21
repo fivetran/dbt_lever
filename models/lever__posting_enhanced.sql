@@ -4,12 +4,30 @@ with posting_applications as (
     from {{ ref('int_lever__posting_applications') }}
 ),
 
+posting_interviews as (
+
+    select *
+    from {{ ref('int_lever__posting_interviews') }}
+),
+
+-- one line per posting
+
+-- join posting_applications
+-- join posting_interviews
+
+-- count requisitions
+-- has_posting (boolean)
+
+-- enhance w/ interview metrics
+-- number of interviews 
+-- number of unique interviewees
+
 posting as (
 
     select *
-    from {{ ref('int_lever__posting_requisition_interview') }}
-),
-
+    from {{ var('posting') }}
+)
+{# 
 final as (
 
     select 
@@ -23,6 +41,6 @@ final as (
 
     from posting 
     left join posting_applications using(posting_id)
-)
+) #}
 
-select * from final
+select * from posting

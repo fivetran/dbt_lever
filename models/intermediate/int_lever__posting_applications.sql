@@ -21,6 +21,32 @@ agg_applications as (
     from application
 
     group by 1
+),
+
+order_hiring_managers as (
+
+    select 
+        posting_id,
+        posting_hiring_manager_user_id,
+        row_number() over( partition by posting_id order by created_at desc) as row_num 
+    from application
+),
+
+last_hiring_manager as (
+
+    select *
+    from order_hiring_managers 
+    where row_num = 1
+),
+
+final as (
+
+    select 
+        agg_applications.*,
+        last_hiring_manager.posting_hiring_manager_user_id
+
+    from agg_applications
+    join last_hiring_manager using(posting_id)
 )
 
-select * from agg_applications
+select * from final
