@@ -26,6 +26,7 @@ vars:
     posting: "{{ ref('stg_lever__posting') }}"
     requisition_posting: "{{ ref('stg_lever__requisition_posting') }}"
     requisition: "{{ ref('stg_lever__requisition') }}"
+    requisition_offer: "{{ ref('stg_lever__requisition_offer') }}"
     stage: "{{ ref('stg_lever__stage') }}"
     user: "{{ ref('stg_lever__user') }}"
     contact_email: "{{ ref('stg_lever__contact_email') }}"
