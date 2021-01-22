@@ -4,6 +4,12 @@ with posting as (
     from {{ var('posting') }}
 ),
 
+posting_tags as (
+
+    select *
+    from {{ ref('int_lever__agg_posting_tags') }}
+),
+
 posting_applications as (
 
     select *
@@ -42,8 +48,8 @@ final as (
         coalesce(posting_interviews.count_interviewees, 0) as count_interviewees,
 
         coalesce(posting_requisitions.count_requisitions, 0) as count_requisitions,
-        posting_requisitions.posting_id is not null as has_requisition
-
+        posting_requisitions.posting_id is not null as has_requisition,
+        posting_tags.tags
 
     from posting
 
@@ -53,7 +59,8 @@ final as (
         on posting.posting_id = posting_interviews.posting_id
     left join posting_requisitions
         on posting.posting_id = posting_requisitions.posting_id
+    left join posting_tags
+        on posting.posting_id = posting_tags.posting_id
 )
-
 
 select * from final
