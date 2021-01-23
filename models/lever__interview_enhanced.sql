@@ -20,7 +20,7 @@ join_w_opportunity as (
         opportunity.opportunity_owner_name,
         opportunity.referrer_name,
         opportunity.hiring_manager_name,
-        coalesce(lower(interview.inteviewer_name) = lower(opportunity.hiring_manager_name), false) as interviewee_is_hiring_manager,
+        coalesce(lower(interview.inteviewer_name) = lower(opportunity.hiring_manager_name), false) as interviewer_is_hiring_manager,
         opportunity.contact_name as interviewee_name,
         opportunity.contact_location as interviewee_location,
         opportunity.origin as interviewee_origin,

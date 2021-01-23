@@ -1,11 +1,3 @@
--- one line per requisition
--- joined w/ user (multiple times) to get info about the hiring_manager, owner & creator
-
--- count postings
--- has_posting (boolean)
-
--- count offers
--- has_offer (boolean)
 with requisition_users as (
 
     select *
@@ -22,7 +14,6 @@ requisition_posting as (
     group by 1
 ),
 
--- todo: should i grab the states of offers? so count_signed, _rejected, _in progress?
 requisition_offer as (
 
     select 
