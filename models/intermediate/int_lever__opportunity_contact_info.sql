@@ -1,7 +1,7 @@
-with opportunity_application as (
+with opportunity as (
 
     select *
-    from {{ ref('int_lever__opportunity_application') }}
+    from {{ ref('int_lever__opportunity_users') }}
 ),
 
 opportunity_sources as (
@@ -41,7 +41,7 @@ latest_resume as (
 final as (
 
     select
-        opportunity_application.*,
+        opportunity.*,
         opportunity_sources.sources,
         latest_resume.file_download_url as resume_download_url,
         contact_info.phones,
@@ -49,16 +49,16 @@ final as (
         contact_info.linkedin_link,
         contact_info.github_link
 
-    from opportunity_application
+    from opportunity
 
     left join opportunity_sources
-        on opportunity_application.opportunity_id = opportunity_sources.opportunity_id
+        on opportunity.opportunity_id = opportunity_sources.opportunity_id
 
     left join latest_resume 
-        on latest_resume.opportunity_id = opportunity_application.opportunity_id
+        on latest_resume.opportunity_id = opportunity.opportunity_id
 
     left join contact_info
-        on contact_info.contact_id = opportunity_application.contact_id
+        on contact_info.contact_id = opportunity.contact_id
 )
 
 select *
