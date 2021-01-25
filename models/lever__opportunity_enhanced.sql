@@ -22,6 +22,7 @@ opportunity_tags as (
     from {{ ref('int_lever__agg_opportunity_tags') }}
 ),
 
+-- gotta do this in case an opportunity has been sent multiple offer versions
 order_offers as (
 
     select 
@@ -37,6 +38,7 @@ last_offer as (
     where row_num = 1
 ),
 
+-- to grab info about the job
 posting as (
 
     select *

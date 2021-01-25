@@ -1,5 +1,6 @@
 with opportunity as (
 
+    -- this builds off the source opportunity table, incorporating application and internal user data. 
     select *
     from {{ ref('int_lever__opportunity_users') }}
 ),

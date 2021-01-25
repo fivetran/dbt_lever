@@ -32,6 +32,12 @@ posting_requisitions as (
     group by 1
 ),
 
+lever_user as (
+
+    select *
+    from {{ var('user') }}
+),
+
 final as (
 
     select 
@@ -49,7 +55,8 @@ final as (
 
         coalesce(posting_requisitions.count_requisitions, 0) as count_requisitions,
         posting_requisitions.posting_id is not null as has_requisition,
-        posting_tags.tags
+        posting_tags.tags,
+        lever_user.full_name as posting_hiring_manager_name
 
     from posting
 
@@ -61,6 +68,8 @@ final as (
         on posting.posting_id = posting_requisitions.posting_id
     left join posting_tags
         on posting.posting_id = posting_tags.posting_id
+    left join lever_user 
+        on posting_applications.posting_hiring_manager_user_id = lever_user.user_id
 )
 
 select * from final
