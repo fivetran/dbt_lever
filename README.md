@@ -39,8 +39,20 @@ vars:
     lever_schema: your_schema_name 
 ```
 
+### Disabling Models
+It's possible that your Lever connector does not sync every table that this package expects. If your syncs exclude certain tables, it is because you either don't use that functionality in Lever or actively excluded some tables from your syncs. To disable the corresponding functionality in the package, you must add the relevant variables. By default, all variables are assumed to be `true`. Add variables for only the tables you would like to disable:  
+
+```yml
+# dbt_project.yml
+...
+config-version: 2
+
+vars:
+    lever_using_requisitions: false # Disable if you do not have the requisition table, or if you do not want requisition related metrics reported
+```
+
 ### Passing Through Custom Requisition Columns
-The `REQUISITION` table may have custom columns (all prefixed by `custom_field_`). To pass these columns through to the `lever__requisition_enhanced`model, add the following variable to your `dbt_project.yml` file:
+If you choose to include requisitions, the `REQUISITION` table may also have custom columns (all prefixed by `custom_field_`). To pass these columns through to the [enhanced requisition model](https://github.com/fivetran/dbt_lever/blob/master/models/lever__requisition_enhanced.sql), add the following variable to your `dbt_project.yml` file:
 
 ```yml
 # dbt_project.yml
