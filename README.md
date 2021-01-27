@@ -16,10 +16,10 @@ This package contains transformation models, designed to work simultaneously wit
 
 | **model**                | **description**                                                                                                                                |
 | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| [lever__interview_enhanced](https://github.com/fivetran/dbt_lever/blob/master/models/lever__interview_enhanced.sql)             | Each record represents a piece of feedback (ie a score along a given standard) given by an user to a unique opportunity that they interviewed. Includes data around the interview coordinators and hiring manager, whether the opportunity enhanced past this interview, how long the opportunity has been open at the time of this interview, and more. |
-| [lever__opportunity_enhanced](https://github.com/fivetran/dbt_lever/blob/master/models/lever__opportunity_enhanced.sql)             | Each record represents a unique opportunity, enhanced with data about its associated posting, requisition, application, origins and tags, resume links, contact information, pipeline stage, offer status, and the position being applied for. Also includes metrics regarding interviews and how early the candidate applied relative to other opportunities. |
+| [lever__interview_enhanced](https://github.com/fivetran/dbt_lever/blob/master/models/lever__interview_enhanced.sql)             | Each record represents a piece of feedback (ie a score) given by an interviewer to a unique interviewee. Includes data around the users involved in this interview/opportunity, the interview feedback score standards, whether the opportunity advanced past this interview, how long the opportunity had been open at the time of this interview, and the opportunity source. |
+| [lever__opportunity_enhanced](https://github.com/fivetran/dbt_lever/blob/master/models/lever__opportunity_enhanced.sql)             | Each record represents a unique opportunity, enhanced with data about its associated posting, requisition, application, origins, and tags, resume links, contact information, current pipeline stage, offer status, and the position that they applied for. Also includes metrics regarding interviews and how early the opportunity applied relative to other candidates. |
 | [lever__posting_enhanced](https://github.com/fivetran/dbt_lever/blob/master/models/lever__posting_enhanced.sql)             | Each record represents a unique job posting, enriched with metrics surrounding submitted applications, total and open opportunities, interviews conducted, and associated requisitions. Also includes the posting's tags and hiring manager. |
-| [lever__requisition_enhanced](https://github.com/fivetran/dbt_lever/blob/master/models/lever__requisition_enhanced.sql)             | Each record represents a unique job requisition, enriched with information about the requisition's hiring manager, owner, offers extended, and associated job postings. |
+| [lever__requisition_enhanced](https://github.com/fivetran/dbt_lever/blob/master/models/lever__requisition_enhanced.sql)             | Each record represents a unique job requisition, enriched with information about the requisition's hiring manager, owner, any offers extended, and associated job postings. |
 | [lever__opportunity_stage_history](https://github.com/fivetran/dbt_lever/blob/master/models/lever__opportunity_stage_history.sql)             | Each record represents a stage that an opportunity has advanced to, with data regarding the time spent in each stage, the job's team, location, and department, the application source, the hiring manager, and the opportunity's owner.  |
 
 ## Installation Instructions
@@ -49,7 +49,6 @@ The `REQUISITION` table may have custom columns (all prefixed by `custom_field_`
 config-version: 2
 
 vars:
-  lever_source:
     lever_requisition_passthrough_columns: ['the', 'list', 'of', 'fields']
 ```
 
