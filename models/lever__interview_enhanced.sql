@@ -2,7 +2,10 @@
 -- an interview can have multiple interviewers, and interviewers can have multiple feedback forms
 with interview as (
 
-    select *
+    select 
+        *,
+        cast( {{ dbt_utils.dateadd(datepart='minute', interval='duration_minutes', from_date_or_timestamp='occurred_at') }}
+            as {{ dbt_utils.type_timestamp() }} ) as ended_at
     from {{ ref('int_lever__interview_users') }}
 ),
 
@@ -26,7 +29,7 @@ join_w_opportunity as (
         opportunity.origin as interviewee_origin,
         opportunity.contact_id as interviewee_contact_id,
         {{ dbt_utils.datediff('opportunity.created_at', 'interview.occurred_at', 'day') }} as days_between_opp_created_and_interview,
-        opportunity.last_advanced_at > interview.occurred_at as has_advanced_since_interview
+        opportunity.last_advanced_at > interview.ended_at as has_advanced_since_interview
 
     from interview
     join opportunity using(opportunity_id)
