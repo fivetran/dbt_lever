@@ -56,7 +56,7 @@ interview_metrics as (
         max(interviewer_is_hiring_manager) as has_interviewed_w_hiring_manager
 
     from {{ ref('lever__interview_enhanced') }}
-    where canceled_at is null
+
     group by 1
 ),
 
