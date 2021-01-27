@@ -7,7 +7,7 @@ with posting as (
 posting_tags as (
 
     select *
-    from {{ ref('int_lever__agg_posting_tags') }}
+    from {{ ref('int_lever__posting_tags') }}
 ),
 
 posting_applications as (
@@ -59,7 +59,7 @@ final as (
         coalesce(posting_requisitions.count_requisitions, 0) as count_requisitions,
         posting_requisitions.posting_id is not null as has_requisition,
         {% endif %}
-        
+
         posting_tags.tags,
         lever_user.full_name as posting_hiring_manager_name
 
