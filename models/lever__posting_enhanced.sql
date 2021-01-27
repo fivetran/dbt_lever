@@ -22,6 +22,7 @@ posting_interviews as (
     from {{ ref('int_lever__posting_interviews') }}
 ),
 
+{% if var('lever_using_requisitions', True) %}
 posting_requisitions as (
 
     select 
@@ -31,6 +32,7 @@ posting_requisitions as (
 
     group by 1
 ),
+{% endif %}
 
 lever_user as (
 
@@ -53,8 +55,11 @@ final as (
         coalesce(posting_interviews.count_interviews, 0) as count_interviews,
         coalesce(posting_interviews.count_interviewees, 0) as count_interviewees,
 
+        {% if var('lever_using_requisitions', True) %}
         coalesce(posting_requisitions.count_requisitions, 0) as count_requisitions,
         posting_requisitions.posting_id is not null as has_requisition,
+        {% endif %}
+        
         posting_tags.tags,
         lever_user.full_name as posting_hiring_manager_name
 
@@ -64,8 +69,12 @@ final as (
         on posting.posting_id = posting_applications.posting_id
     left join posting_interviews
         on posting.posting_id = posting_interviews.posting_id
+
+    {% if var('lever_using_requisitions', True) %}
     left join posting_requisitions
         on posting.posting_id = posting_requisitions.posting_id
+    {% endif %}
+
     left join posting_tags
         on posting.posting_id = posting_tags.posting_id
     left join lever_user 

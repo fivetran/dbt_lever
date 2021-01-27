@@ -1,3 +1,5 @@
+{{ config(enabled=var('lever_using_requisitions', True)) }}
+
 with lever_user as (
 
     select *

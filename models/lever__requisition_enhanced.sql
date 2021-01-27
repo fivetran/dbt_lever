@@ -1,3 +1,5 @@
+{{ config(enabled=var('lever_using_requisitions', True)) }}
+
 with requisition_users as (
 
     select *
