@@ -21,8 +21,9 @@ grab_interviewers as (
         interview_feedback.*,
         interviewer_user.user_id as interviewer_user_id
     from interview_feedback
-    join interviewer_user 
+    left join interviewer_user 
         on interview_feedback.interview_id = interviewer_user.interview_id
+        and interview_feedback.feedback_completer_user_id = interviewer_user.user_id
 
 ),
 

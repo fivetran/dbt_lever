@@ -25,7 +25,7 @@ join_w_opportunity as (
         opportunity.contact_location as interviewee_location,
         opportunity.origin as interviewee_origin,
         opportunity.contact_id as interviewee_contact_id,
-        {{ dbt_utils.datediff('opportunity.created_at', 'interview.occurred_at', 'day') }} as days_since_opp_created,
+        {{ dbt_utils.datediff('opportunity.created_at', 'interview.occurred_at', 'day') }} as days_between_opp_created_and_interview,
         opportunity.last_advanced_at > interview.occurred_at as has_advanced_since_interview
 
     from interview

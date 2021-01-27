@@ -34,12 +34,9 @@ join_w_feedback as (
 
 
     from interview
-    -- todo: not sure if this should be a left join.....
-    -- it fans out if it is
-    -- join with this to limit noise 
-    join interview_feedback 
+    left join interview_feedback 
         on interview.interview_id = interview_feedback.interview_id
-    join feedback_form 
+    left join feedback_form 
         on interview_feedback.feedback_form_id = feedback_form.feedback_form_id
 )
 
