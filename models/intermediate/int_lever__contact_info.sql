@@ -13,7 +13,7 @@ contact_emails as (
 
     select 
         contact_id,
-        {{ fivetran_utils.string_agg('"<" || email || ">"' , "', '") }} as emails
+        {{ fivetran_utils.string_agg("'<' || email || '>'" , "', '") }} as emails
 
     from {{ var('contact_email') }}
 
