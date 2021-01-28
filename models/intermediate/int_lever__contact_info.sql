@@ -2,7 +2,7 @@ with contact_phones as (
 
     select 
         contact_id,
-        {{ fivetran_utils.string_agg('phone_type || ": " || phone_number' , "', '") }} as phones
+        {{ fivetran_utils.string_agg("phone_type || ': ' || phone_number" , "', '") }} as phones
 
     from {{ var('contact_phone') }}
 
