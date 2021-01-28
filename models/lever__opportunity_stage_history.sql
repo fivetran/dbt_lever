@@ -34,16 +34,15 @@ join_opportunity_stage_history as (
 
     select 
         opp_stage_history.opportunity_id,
+        opportunity.contact_name as opportunity_contact_name,
         opp_stage_history.valid_from,
+        coalesce(opp_stage_history.valid_ending_at, opportunity.archived_at, {{ dbt_utils.current_timestamp() }}) as valid_ending_at,
+        stage.stage_name as stage,
+
         opp_stage_history.stage_id,
-        opp_stage_history.updater_user_id,
         opp_stage_history.stage_index_in_pipeline,
 
-        coalesce(opp_stage_history.valid_ending_at, opportunity.archived_at, {{ dbt_utils.current_timestamp() }}) as valid_ending_at,
-
-        stage.stage_name as stage,
         lever_user.full_name as updater_user_name,
-        opportunity.contact_name,
         opportunity.archive_reason, -- if archived later
         opportunity.job_title,
         opportunity.job_department,
@@ -70,28 +69,5 @@ final_time_in_stages as (
     from join_opportunity_stage_history
 
 )
-{# 
-final as (
-
-    select 
-        time_in_stages.*,
-        stage.stage_name as stage,
-        lever_user.full_name as updater_user_name,
-        opportunity.contact_name,
-        opportunity.job_title,
-        opportunity.job_department,
-        opportunity.job_location,
-        opportunity.job_team,
-        opportunity.application_type,
-        opportunity.sources as application_sources,
-        opportunity.hiring_manager_name,
-        opportunity.opportunity_owner_name
-
-    from time_in_stages
-
-    join stage on time_in_stages.stage_id = stage.stage_id
-    left join lever_user on lever_user.user_id = time_in_stages.updater_user_id 
-    join opportunity on opportunity.opportunity_id = time_in_stages.opportunity_id
-) #}
 
 select * from final_time_in_stages
