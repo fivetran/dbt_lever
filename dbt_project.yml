@@ -34,5 +34,8 @@ vars:
     contact_link: "{{ ref('stg_lever__contact_link') }}"
     resume: "{{ ref('stg_lever__resume') }}"
 
-models: 
-  materialized: table
+models:
+  lever:
+    +materialized: table
+    intermediate:
+      +materialized: ephemeral
