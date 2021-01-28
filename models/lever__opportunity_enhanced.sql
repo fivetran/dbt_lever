@@ -53,7 +53,7 @@ interview_metrics as (
         count(distinct interview_id) as count_interviews,
         count(distinct interviewer_user_id) as count_interviewers, 
         max(occurred_at) as latest_interview_scheduled_at,
-        max(interviewer_is_hiring_manager) as has_interviewed_w_hiring_manager
+        max(case when interviewer_is_hiring_manager then 1 else 0 end) as has_interviewed_w_hiring_manager
 
     from {{ ref('lever__interview_enhanced') }}
 
@@ -85,7 +85,7 @@ final as (
         coalesce(interview_metrics.count_interviews, 0) as count_interviews,
         coalesce(interview_metrics.count_interviewers, 0) as count_interviewers,
         interview_metrics.latest_interview_scheduled_at,
-        coalesce(interview_metrics.has_interviewed_w_hiring_manager, false) has_interviewed_w_hiring_manager
+        case when coalesce(interview_metrics.has_interviewed_w_hiring_manager, 0) = 0 then false else true end as has_interviewed_w_hiring_manager
 
     from opportunity
     join stage  
