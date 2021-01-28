@@ -39,5 +39,5 @@ vars:
 models:
   lever:
     +materialized: table
-    intermediate:
+    intermediate: 
       +materialized: ephemeral
