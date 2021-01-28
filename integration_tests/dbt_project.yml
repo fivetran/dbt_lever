@@ -54,7 +54,7 @@ vars:
     user: "{{ ref('stg_lever__user') }}"
     contact_email: "{{ ref('stg_lever__contact_email') }}"
     contact_phone: "{{ ref('stg_lever__contact_phone') }}"
-    contact_link: "{{ ref('stg_lever__ccontact_link') }}"
+    contact_link: "{{ ref('stg_lever__contact_link') }}"
     resume: "{{ ref('stg_lever__resume') }}"
 
 seeds:
