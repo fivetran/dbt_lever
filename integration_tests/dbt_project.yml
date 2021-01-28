@@ -18,18 +18,18 @@ vars:
     opportunity_stage_history: "{{ ref('opportunity_stage_history') }}"
     opportunity_tag: "{{ ref('opportunity_tag') }}"
     opportunity: "{{ ref('opportunity') }}"
-    panel_application: "{{ ref('panel_application') }}"
-    panel_interview: "{{ ref('panel_interview') }}"
-    panel: "{{ snowflake_seed_data('panel') }}"
     posting_interview: "{{ ref('posting_interview') }}"
     posting_tag: "{{ ref('posting_tag') }}"
     posting: "{{ ref('posting') }}"
     requisition_posting: "{{ ref('requisition_posting') }}"
+    requisition_offer: "{{ ref('requisition_offer') }}"
     requisition: "{{ ref('requisition') }}"
     stage: "{{ ref('stage') }}"
     user: "{{ ref('user') }}"
     contact_email: "{{ ref('contact_email') }}"
     contact_phone: "{{ ref('contact_phone') }}"
+    contact_link: "{{ ref('contact_link') }}"
+    resume: "{{ ref('resume') }}"
 
   lever:
     application: "{{ ref('stg_lever__application') }}"
@@ -44,21 +44,21 @@ vars:
     opportunity_stage_history: "{{ ref('stg_lever__opportunity_stage_history') }}"
     opportunity_tag: "{{ ref('stg_lever__opportunity_tag') }}"
     opportunity: "{{ ref('stg_lever__opportunity') }}"
-    panel_application: "{{ ref('stg_lever__panel_application') }}"
-    panel_interview: "{{ ref('stg_lever__panel_interview') }}"
-    panel: "{{ snowflake_seed_data('panel') }}"
     posting_interview: "{{ ref('stg_lever__posting_interview') }}"
     posting_tag: "{{ ref('stg_lever__posting_tag') }}"
     posting: "{{ ref('stg_lever__posting') }}"
     requisition_posting: "{{ ref('stg_lever__requisition_posting') }}"
+    requisition_offer: "{{ ref('stg_lever__requisition_offer') }}"
     requisition: "{{ ref('stg_lever__requisition') }}"
     stage: "{{ ref('stg_lever__stage') }}"
     user: "{{ ref('stg_lever__user') }}"
     contact_email: "{{ ref('stg_lever__contact_email') }}"
     contact_phone: "{{ ref('stg_lever__contact_phone') }}"
+    contact_link: "{{ ref('stg_lever__ccontact_link') }}"
+    resume: "{{ ref('stg_lever__resume') }}"
 
 seeds:
-  lever_source_integration_tests:
+  lever_integration_tests:
     +column_types:
       _fivetran_synced: timestamp
     application:
@@ -98,20 +98,6 @@ seeds:
     opportunity_stage_history:
       +column_types:
         updated_at: timestamp
-    panel:
-      +column_types:
-        canceled_at: timestamp
-        created_at: timestamp 
-        end: timestamp
-        start: timestamp
-      +quote_columns: "{{ true if target.type == 'redshift' else false }}"
-      +enabled: "{{ true if target.type != 'snowflake' else false }}"
-    panel_snowflake:
-      +column_types:
-        canceled_at: timestamp
-        created_at: timestamp 
-        end: timestamp
-      +enabled: "{{ true if target.type == 'snowflake' else false }}"
     posting:
       +column_types:
         created_at: timestamp
@@ -134,3 +120,13 @@ seeds:
       +column_types:
         index: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
         value: "{{ 'string' if target.name == 'bigquery' else 'varchar' }}"
+    contact_link:
+      +column_types:
+        contact_id: "{{ 'string' if target.name == 'bigquery' else 'varchar' }}"
+        link: "{{ 'string' if target.name == 'bigquery' else 'varchar' }}"
+    resume:
+      +column_types:
+        id: "{{ 'string' if target.name == 'bigquery' else 'varchar' }}"
+        file_ext: "{{ 'string' if target.name == 'bigquery' else 'varchar' }}"
+        created_at: timestamp
+        file_uploaded_at: timestamp
