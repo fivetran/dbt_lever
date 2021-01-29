@@ -1,4 +1,4 @@
-# Lever (docs)
+# Lever [(docs)](https://pensive-murdock-e1bb8a.netlify.app/#!/overview)
 
 This package models Lever data from [Fivetran's Opportunity endpoint connector](https://fivetran.com/docs/applications/lever). It uses data in the format described by [this ERD](https://fivetran.com/docs/applications/lever#schemainformation).
 > NOTE: If your Lever connector was created [prior to July 2020](https://fivetran.com/docs/applications/lever/changelog) or still uses the Candidate endpoint, you must fully re-sync your connector or set up a new connector to use Fivetran's Lever dbt packages.
