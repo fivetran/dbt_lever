@@ -250,8 +250,6 @@ models:
         description: Timestamp of when the opportunity was changed to this stage.
       - name: stage_id
         description: Foreign key referencing the STAGE that the opportunity was changed to.
-      - name: updater_user_id
-        description: Foreign key referencing the USER who changed the opportunity stage.
       - name: stage_index_in_pipeline
         description: The index of the stage in the pipeline at the time the stage change occurred. 
       - name: valid_ending_at
@@ -260,7 +258,7 @@ models:
         description: Name of the stage. 
       - name: updater_user_name
         description: Full name of the user who updated the candidate to this stage. 
-      - name: contact_name
+      - name: opportunity_contact_name
         description: Contact full name.
       - name: archive_reason
         description: Reason that the opportunity was ultimately archived. 

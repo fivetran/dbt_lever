@@ -95,6 +95,7 @@ seeds:
         last_interaction_at: timestamp
         snoozed_until: timestamp
         updated_at: timestamp 
+        id: "{{ 'string' if target.name == 'bigquery' else 'varchar' }}"
     opportunity_stage_history:
       +column_types:
         updated_at: timestamp
@@ -114,6 +115,7 @@ seeds:
       +column_types:
         created_at: timestamp
         deactivated_at: timestamp
+        id: "{{ 'string' if target.name == 'bigquery' else 'varchar' }}"
     opportunity_tag:
       +quote_columns: "{{ true if target.type == 'redshift' else false }}"
     contact_phone:
@@ -130,3 +132,6 @@ seeds:
         file_ext: "{{ 'string' if target.name == 'bigquery' else 'varchar' }}"
         created_at: timestamp
         file_uploaded_at: timestamp
+    stage:
+      +column_types:
+        id: "{{ 'string' if target.name == 'bigquery' else 'varchar' }}"
