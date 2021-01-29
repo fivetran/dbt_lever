@@ -99,6 +99,9 @@ seeds:
     opportunity_stage_history:
       +column_types:
         updated_at: timestamp
+        stage_id: "{{ 'string' if target.name == 'bigquery' else 'varchar' }}"
+        opportunity_id: "{{ 'string' if target.name == 'bigquery' else 'varchar' }}"
+        updater_id: "{{ 'string' if target.name == 'bigquery' else 'varchar' }}"
     posting:
       +column_types:
         created_at: timestamp
