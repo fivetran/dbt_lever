@@ -42,3 +42,5 @@ join_w_feedback as (
 
 select *
 from join_w_feedback
+{# Adding condition for non-null feedback_form_id observations. dbt expectations unique test fails for null observations #}
+where feedback_form_id is not null
