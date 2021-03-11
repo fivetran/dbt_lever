@@ -35,6 +35,7 @@ vars:
     resume: "{{ ref('stg_lever__resume') }}"
 
     lever_using_requisitions: true
+    lever_using_posting_tag: true
 
 models:
   lever:
