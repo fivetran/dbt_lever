@@ -5,6 +5,8 @@ require-dbt-version: [">=0.18.0", "<0.20.0"]
 
 
 vars:
+  lever_using_requisitions: true  # Disable if you do not have the requisition table, or if you do not want requisition related metrics reported
+  lever_using_posting_tag: true   # Disable if you do not have (or want) the postings tag table
   lever:
     application: "{{ ref('stg_lever__application') }}"
     archive_reason: "{{ ref('stg_lever__archive_reason') }}"
@@ -34,7 +36,6 @@ vars:
     contact_link: "{{ ref('stg_lever__contact_link') }}"
     resume: "{{ ref('stg_lever__resume') }}"
 
-    lever_using_requisitions: true
 
 models:
   lever:

@@ -4,11 +4,13 @@ with posting as (
     from {{ var('posting') }}
 ),
 
+{% if var('lever_using_posting_tag', True) %}
 posting_tags as (
 
     select *
     from {{ ref('int_lever__posting_tags') }}
 ),
+{% endif %}
 
 posting_applications as (
 
@@ -60,7 +62,10 @@ final as (
         posting_requisitions.posting_id is not null as has_requisition,
         {% endif %}
 
+        {% if var('lever_using_posting_tag', True) %}
         posting_tags.tags,
+        {% endif %}
+
         lever_user.full_name as posting_hiring_manager_name
 
     from posting
@@ -75,8 +80,11 @@ final as (
         on posting.posting_id = posting_requisitions.posting_id
     {% endif %}
 
+    {% if var('lever_using_posting_tag', True) %}
     left join posting_tags
         on posting.posting_id = posting_tags.posting_id
+    {% endif %}
+
     left join lever_user 
         on posting_applications.posting_hiring_manager_user_id = lever_user.user_id
 )
