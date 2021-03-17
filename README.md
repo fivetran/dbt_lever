@@ -47,6 +47,7 @@ config-version: 2
 
 vars:
     lever_using_requisitions: false # Disable if you do not have the requisition table, or if you do not want requisition related metrics reported
+    lever_using_posting_tag: false # disable if you do not have (or want) the postings tag table
 ```
 
 ### Passing Through Custom Requisition Columns
