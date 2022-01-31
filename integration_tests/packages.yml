@@ -1,3 +1,4 @@
 
 packages:
-    - local: ../
+        - package: fivetran/lever
+          version: 0.2.0
