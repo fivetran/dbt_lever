@@ -24,7 +24,7 @@ opp_stage_history as (
         stage_id,
         updater_user_id,
         to_stage_index as stage_index_in_pipeline,
-        lead(updated_at) over (partition by opportunity_id order by updated_at asc) as valid_ending_at
+        cast(lead(updated_at) over (partition by opportunity_id order by updated_at asc) as {{ dbt_utils.type_timestamp() }}) as valid_ending_at
 
     from {{ var('opportunity_stage_history') }}
 ),
