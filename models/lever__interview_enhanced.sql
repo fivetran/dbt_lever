@@ -4,8 +4,7 @@ with interview as (
 
     select 
         *,
-        cast( {{ dbt_utils.dateadd(datepart='minute', interval='duration_minutes', from_date_or_timestamp='occurred_at') }}
-            as {{ dbt_utils.type_timestamp() }} ) as ended_at
+        {{ dbt_utils.dateadd(datepart='minute', interval='duration_minutes', from_date_or_timestamp='occurred_at') }} as ended_at
     from {{ ref('int_lever__interview_users') }}
 ),
 
