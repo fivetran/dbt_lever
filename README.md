@@ -24,7 +24,7 @@ This package enables you to understand trends in recruiting, interviewing, and h
 - Calculating the velocity of opportunities through each pipeline stage, along with major job- and candidate-related attributes for segmented funnel analysis
 
 The following table provides a detailed list of all models materialized within this package by default. 
-> TIP: See more details about these models in the package's [dbt docs site](https://hub.getdbt.com/fivetran/lever/latest/).
+> TIP: See more details about these models in the package's [dbt docs site](https://fivetran.github.io/dbt_lever/#!/overview).
 
 
 | **model**                | **description**                                                                                                                                |
