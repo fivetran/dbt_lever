@@ -1,6 +1,7 @@
 # dbt_lever v0.4.0
-🎉 Applying Package Standardization 🎉
-We are applying standardization updates to be more consistent across our documentation.
+## 🎉 Documentation and Feature Updates
+	- Updated README documentation updates for easier navigation and setup of the dbt package
+	- Included `lever_[source_table_name]_identifier` variable within the Lever source package for additional flexibility within the package when source tables are named differently.
 # dbt_lever v0.3.0
 🎉 dbt v1.0.0 Compatibility 🎉
 ## 🚨 Breaking Changes 🚨
