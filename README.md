@@ -24,7 +24,7 @@ This package enables you to understand trends in recruiting, interviewing, and h
 - Calculating the velocity of opportunities through each pipeline stage, along with major job- and candidate-related attributes for segmented funnel analysis
 
 The following table provides a detailed list of all models materialized within this package by default. 
-> TIP: See more details about these models in the package's [dbt docs site](https://fivetran.github.io/dbt_lever/#!/overview?g_v=1&g_e=seeds).
+> TIP: See more details about these models in the package's [dbt docs site](https://hub.getdbt.com/fivetran/lever/latest/).
 
 
 | **model**                | **description**                                                                                                                                |
@@ -71,7 +71,7 @@ vars:
     lever_using_requisitions: false # Disable if you do not have the requisition table, or if you do not want requisition related metrics reported
     lever_using_posting_tag: false # disable if you do not have (or want) the postings tag table
 ```
-## (Optional) Step 6: Additional configurations
+## (Optional) Step 5: Additional configurations
 
 <details><summary>Expand for configurations</summary>
 
@@ -102,7 +102,7 @@ models:
 ### Change the source table references
 If an individual source table has a different name than the package expects, add the table name as it appears in your destination to the respective variable:
 
-> IMPORTANT: See this project's [`dbt_project.yml`](https://github.com/fivetran/dbt_lever/blob/main/dbt_project.yml) variable declarations to see the expected names.
+> IMPORTANT: See this project's [`dbt_project.yml`](https://github.com/fivetran/dbt_lever_source/blob/main/dbt_project.yml) variable declarations to see the expected names.
 
 ```yml
 vars:
@@ -110,7 +110,7 @@ vars:
 ```
 </details>
 
-## (Optional) Step 7: Orchestrate your models with Fivetran Transformations for dbt Core™
+## (Optional) Step 6: Orchestrate your models with Fivetran Transformations for dbt Core™
 <details><summary>Expand for details</summary>
 <br>
     
