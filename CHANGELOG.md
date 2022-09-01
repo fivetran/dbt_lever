@@ -1,7 +1,7 @@
 # dbt_lever v0.4.0
 ## 🎉 Documentation and Feature Updates
-	- Updated README documentation updates for easier navigation and setup of the dbt package
-	- Included `lever_[source_table_name]_identifier` variable within the Lever source package for additional flexibility within the package when source tables are named differently.
+	- Updated README documentation updates for easier navigation and setup of the dbt package. ([#13](https://github.com/fivetran/dbt_lever/pull/13))
+	- Included `lever_[source_table_name]_identifier` variable within the Lever source package for additional flexibility within the package when source tables are named differently. ([#13](https://github.com/fivetran/dbt_lever/pull/13))
 # dbt_lever v0.3.0
 🎉 dbt v1.0.0 Compatibility 🎉
 ## 🚨 Breaking Changes 🚨
