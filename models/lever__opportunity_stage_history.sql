@@ -36,7 +36,7 @@ join_opportunity_stage_history as (
         opp_stage_history.opportunity_id,
         opportunity.contact_name as opportunity_contact_name,
         opp_stage_history.valid_from,
-        coalesce(opp_stage_history.valid_ending_at, opportunity.archived_at, {{ dbt_utils.current_timestamp() }}) as valid_ending_at,
+        coalesce(opp_stage_history.valid_ending_at, opportunity.archived_at, {{ dbt.current_timestamp_backcompat() }}) as valid_ending_at,
         stage.stage_name as stage,
 
         opp_stage_history.stage_id,
@@ -64,7 +64,7 @@ final_time_in_stages as (
 
     select
        *,
-        {{ dbt_utils.datediff('valid_from', 'valid_ending_at', 'day') }} as days_in_stage
+        {{ dbt.datediff('valid_from', 'valid_ending_at', 'day') }} as days_in_stage
         
     from join_opportunity_stage_history
 
