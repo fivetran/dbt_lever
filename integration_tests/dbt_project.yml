@@ -108,9 +108,6 @@ seeds:
     requisition:
       +column_types:
         created_at: timestamp
-    template_field:
-      +column_types:
-        field_index: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
     user:
       +column_types:
         created_at: timestamp
