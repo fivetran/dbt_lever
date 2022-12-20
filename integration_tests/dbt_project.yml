@@ -1,9 +1,7 @@
 name: 'lever_integration_tests'
-version: '0.4.0'
+version: '0.5.0'
 config-version: 2
 profile: 'integration_tests'
-
-
 vars:
   lever_schema: lever_integration_tests
   lever_source:
@@ -31,7 +29,6 @@ vars:
     lever_contact_phone_identifier: "contact_phone"
     lever_contact_link_identifier: "contact_link"
     lever_resume_identifier: "resume"
-
   lever:
     application: "{{ ref('stg_lever__application') }}"
     archive_reason: "{{ ref('stg_lever__archive_reason') }}"
@@ -57,7 +54,6 @@ vars:
     contact_phone: "{{ ref('stg_lever__contact_phone') }}"
     contact_link: "{{ ref('stg_lever__contact_link') }}"
     resume: "{{ ref('stg_lever__resume') }}"
-
 seeds:
   lever_integration_tests:
     +column_types:
@@ -89,13 +85,13 @@ seeds:
     opportunity:
       +column_types:
         archived_at: timestamp
-        created_at: timestamp 
+        created_at: timestamp
         data_protection_contact_expires_at: timestamp
         data_protection_store_expires_at: timestamp
         last_advanced_at: timestamp
         last_interaction_at: timestamp
         snoozed_until: timestamp
-        updated_at: timestamp 
+        updated_at: timestamp
         id: "{{ 'string' if target.name == 'bigquery' else 'varchar' }}"
     opportunity_stage_history:
       +column_types:
@@ -112,9 +108,6 @@ seeds:
     requisition:
       +column_types:
         created_at: timestamp
-    template_field:
-      +column_types:
-        field_index: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
     user:
       +column_types:
         created_at: timestamp

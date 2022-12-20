@@ -77,7 +77,7 @@ final as (
         posting.job_team,
         posting.current_state as current_state_of_job_posting,
         -- time from first application for this posting
-        {{ dbt_utils.datediff('posting.first_app_sent_at', 'opportunity.created_at', 'day') }} as opp_created_n_days_after_first_app,
+        {{ dbt.datediff('posting.first_app_sent_at', 'opportunity.created_at', 'day') }} as opp_created_n_days_after_first_app,
 
         last_offer.opportunity_id is not null as has_offer,
         last_offer.status as current_offer_status,
