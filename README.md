@@ -48,6 +48,9 @@ packages:
   - package: fivetran/lever
     version: [">=0.5.0", "<0.6.0"]
 ```
+
+Do **NOT** include the `lever_source` package in this file. The transformation package itself has a dependency on it and will install the source package as well. 
+
 ## Step 3: Define database and schema variables
 By default, this package runs using your destination and the `lever` schema. If this is not where your Lever data is (for example, if your Lever schema is named `lever_fivetran`), add the following configuration to your root `dbt_project.yml` file:
 
