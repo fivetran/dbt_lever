@@ -1,9 +1,11 @@
-# dbt_lever v0.UPDATE.UPDATE
+# dbt_lever v0.6.0
+## 🎉 Feature Update 🎉
+- Databricks compatibility! ([#18](https://github.com/fivetran/dbt_lever/pull/18))
 
- ## Under the Hood:
+## 🚘 Under the Hood 🚘
+- Incorporated the new `fivetran_utils.drop_schemas_automation` macro into the end of each Buildkite integration test job. ([#16](https://github.com/fivetran/dbt_lever/pull/16))
+- Updated the pull request [templates](/.github). ([#16](https://github.com/fivetran/dbt_lever/pull/16))
 
-- Incorporated the new `fivetran_utils.drop_schemas_automation` macro into the end of each Buildkite integration test job.
-- Updated the pull request [templates](/.github).
 # dbt_lever v0.5.0
 
 ## 🚨 Breaking Changes 🚨:
