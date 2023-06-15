@@ -38,7 +38,7 @@ The following table provides a detailed list of all models materialized within t
 To use this dbt package, you must have the following:
 
 - At least one Fivetran Lever connector syncing data into your destination.
-- A **BigQuery**, **Snowflake**, or **Redshift** destination.
+- A **BigQuery**, **Snowflake**, **Redshift**, **Postgres**, or **Databricks** destination.
 
 ## Step 2: Install the package
 Include the following lever package version in your `packages.yml` file:
@@ -46,7 +46,7 @@ Include the following lever package version in your `packages.yml` file:
 ```yaml
 packages:
   - package: fivetran/lever
-    version: [">=0.5.0", "<0.6.0"]
+    version: [">=0.6.0", "<0.7.0"]
 ```
 
 Do **NOT** include the `lever_source` package in this file. The transformation package itself has a dependency on it and will install the source package as well. 
@@ -124,7 +124,7 @@ This dbt package is dependent on the following dbt packages. Please be aware tha
 ```yml
 packages:
     - package: fivetran/lever_source
-      version: [">=0.5.0", "<0.6.0"]
+      version: [">=0.6.0", "<0.7.0"]
 
     - package: fivetran/fivetran_utils
       version: [">=0.4.0", "<0.5.0"]
