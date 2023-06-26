@@ -1,5 +1,5 @@
 name: 'lever_integration_tests'
-version: '0.5.0'
+version: '0.6.0'
 config-version: 2
 profile: 'integration_tests'
 vars:
@@ -92,13 +92,13 @@ seeds:
         last_interaction_at: timestamp
         snoozed_until: timestamp
         updated_at: timestamp
-        id: "{{ 'string' if target.name == 'bigquery' else 'varchar' }}"
+        id: "{{ 'string' if target.name in ('bigquery', 'spark', 'databricks') else 'varchar' }}"
     opportunity_stage_history:
       +column_types:
         updated_at: timestamp
-        stage_id: "{{ 'string' if target.name == 'bigquery' else 'varchar' }}"
-        opportunity_id: "{{ 'string' if target.name == 'bigquery' else 'varchar' }}"
-        updater_id: "{{ 'string' if target.name == 'bigquery' else 'varchar' }}"
+        stage_id: "{{ 'string' if target.name in ('bigquery', 'spark', 'databricks') else 'varchar' }}"
+        opportunity_id: "{{ 'string' if target.name in ('bigquery', 'spark', 'databricks') else 'varchar' }}"
+        updater_id: "{{ 'string' if target.name in ('bigquery', 'spark', 'databricks') else 'varchar' }}"
     posting:
       +column_types:
         created_at: timestamp
@@ -112,23 +112,27 @@ seeds:
       +column_types:
         created_at: timestamp
         deactivated_at: timestamp
-        id: "{{ 'string' if target.name == 'bigquery' else 'varchar' }}"
+        id: "{{ 'string' if target.name in ('bigquery', 'spark', 'databricks') else 'varchar' }}"
     opportunity_tag:
       +quote_columns: "{{ true if target.type == 'redshift' else false }}"
     contact_phone:
       +column_types:
         index: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
-        value: "{{ 'string' if target.name == 'bigquery' else 'varchar' }}"
+        value: "{{ 'string' if target.name in ('bigquery', 'spark', 'databricks') else 'varchar' }}"
     contact_link:
       +column_types:
-        contact_id: "{{ 'string' if target.name == 'bigquery' else 'varchar' }}"
-        link: "{{ 'string' if target.name == 'bigquery' else 'varchar' }}"
+        contact_id: "{{ 'string' if target.name in ('bigquery', 'spark', 'databricks') else 'varchar' }}"
+        link: "{{ 'string' if target.name in ('bigquery', 'spark', 'databricks') else 'varchar' }}"
     resume:
       +column_types:
-        id: "{{ 'string' if target.name == 'bigquery' else 'varchar' }}"
-        file_ext: "{{ 'string' if target.name == 'bigquery' else 'varchar' }}"
+        id: "{{ 'string' if target.name in ('bigquery', 'spark', 'databricks') else 'varchar' }}"
+        file_ext: "{{ 'string' if target.name in ('bigquery', 'spark', 'databricks') else 'varchar' }}"
         created_at: timestamp
         file_uploaded_at: timestamp
     stage:
       +column_types:
-        id: "{{ 'string' if target.name == 'bigquery' else 'varchar' }}"
+        id: "{{ 'string' if target.name in ('bigquery', 'spark', 'databricks') else 'varchar' }}"
+
+dispatch:
+  - macro_namespace: dbt_utils
+    search_order: ['spark_utils', 'dbt_utils']
