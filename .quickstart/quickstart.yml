@@ -1,0 +1,18 @@
+database_key: lever_database
+schema_key: lever_schema
+
+dbt_versions: ">=1.3.0 <2.0.0"
+
+table_variables:
+  lever_using_requisitions:
+    - requisition_posting
+    - requisition
+    - requisition_offer
+  lever_using_posting_tag:
+    - posting_tag
+
+destination_configurations:
+  databricks:
+    dispatch:
+      - macro_namespace: dbt_utils
+        search_order: [ 'spark_utils', 'dbt_utils' ]
