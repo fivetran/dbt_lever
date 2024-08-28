@@ -20,17 +20,21 @@
     - Integrating the interview table with reviewer information and feedback
     - Calculating the velocity of opportunities through each pipeline stage, along with major job- and candidate-related attributes for segmented funnel analysis
 - Generates a comprehensive data dictionary of your source and modeled Lever data through the [dbt docs site](https://fivetran.github.io/dbt_lever/#!/overview).
-The following table provides a detailed list of all models materialized within this package by default.
-> TIP: See more details about these models in the package's [dbt docs site](https://fivetran.github.io/dbt_lever/#!/overview?g_v=1).
+
+<!--section=“lever_transformation_model"-->
+The following table provides a detailed list of all tables materialized within this package by default.
+> TIP: See more details about these tables in the package's [dbt docs site](https://fivetran.github.io/dbt_lever/#!/overview?g_v=1).
 
 
-| **model**                | **description**                                                                                                                                |
+| **Table**                | **Description**                                                                                                                                |
 | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- |
 | [lever__interview_enhanced](https://fivetran.github.io/dbt_lever/#!/model/model.lever.lever__interview_enhanced)             | Each record represents a score that an interviewer gives to a unique interviewee. Includes data around the employees involved in this interview/opportunity, the interview feedback score standards, whether the opportunity advanced past this interview, how long the opportunity had been open at the time of the interview, and the opportunity source. |
 | [lever__opportunity_enhanced](https://fivetran.github.io/dbt_lever/#!/model/model.lever.lever__opportunity_enhanced)             | Each record represents a unique opportunity, enhanced with data about its associated job posting, requisition, application, origins, tags, resume links, contact information, current pipeline stage, offer status, and the position that the candidate applied for. Also includes interview metrics and how early the candidate applied relative to other candidates. |
 | [lever__posting_enhanced](https://fivetran.github.io/dbt_lever/#!/model/model.lever.lever__posting_enhanced)             | Each record represents a unique job posting, enriched with metrics about submitted applications, total and open opportunities, interviews conducted, and associated requisitions. Also includes the job posting's tags and hiring manager. |
 | [lever__requisition_enhanced](https://fivetran.github.io/dbt_lever/#!/model/model.lever.lever__requisition_enhanced)             | Each record represents a unique job requisition, enriched with information about the requisition's hiring manager, owner, offers extended, and associated job postings. |
 | [lever__opportunity_stage_history](https://fivetran.github.io/dbt_lever/#!/model/model.lever.lever__opportunity_stage_history)             | Each record represents a stage that an opportunity has advanced to. Includes data about the time spent in each stage, the application source, the hiring manager, and the opportunity's owner, as well as the job's team, location, and department. |
+
+<!--section-end-->
 
 ## How do I use the dbt package?
 
