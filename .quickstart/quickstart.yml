@@ -16,3 +16,11 @@ destination_configurations:
     dispatch:
       - macro_namespace: dbt_utils
         search_order: [ 'spark_utils', 'dbt_utils' ]
+
+public_models: [
+  "lever__posting_enhanced",
+  "lever__requisition_enhanced",
+  "lever__opportunity_stage_history",
+  "lever__opportunity_enhanced",
+  "lever__interview_enhanced"
+]
