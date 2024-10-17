@@ -1,9 +1,12 @@
+UPDATE TESTS AND CHECK SOURCE_RELATION ADDED PROPERLY!!! (delete line when done.)
 version: 2
 
 models:
   - name: lever__interview_enhanced
     description: Table in which each row is a unique interview-feedback combo. Interviews without feedback appear here as well. 
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: canceled_at
         description: Timestamp of when the interview was canceled.
       - name: created_at
@@ -88,6 +91,8 @@ models:
   - name: lever__opportunity_enhanced
     description: Table of unique opportunities.
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: opportunity_id
         description: Unique ID of the opportunity.
         tests:
@@ -244,6 +249,8 @@ models:
   - name: lever__opportunity_stage_history
     description: Table capturing each stage that an opportunity has advanced too.
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: opportunity_id
         description: Foreign key referencing the id of the OPPORTUNITY.
       - name: valid_from
@@ -289,6 +296,8 @@ models:
   - name: lever__posting_enhanced
     description: Table capturing job postings.
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: posting_id
         description: Unique ID of the job posting. 
         tests:
@@ -355,6 +364,8 @@ models:
   - name: lever__requisition_enhanced
     description: Table capturing requisitions, if enabled.
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: requisition_id
         description: Unique id of the requisition.
         tests:

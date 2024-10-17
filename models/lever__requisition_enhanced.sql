@@ -1,3 +1,5 @@
+ADD source_relation WHERE NEEDED + CHECK JOINS AND WINDOW FUNCTIONS! (Delete this line when done.)
+
 {{ config(enabled=var('lever_using_requisitions', True)) }}
 
 with requisition_users as (
@@ -39,8 +41,10 @@ final as (
     from requisition_users
     left join requisition_posting 
         on requisition_users.requisition_id = requisition_posting.requisition_id
+        and requisition_users.source_relation = requisition_posting.source_relation
     left join requisition_offer
         on requisition_users.requisition_id = requisition_offer.requisition_id
+        and requisition_users.source_relation = requisition_offer.source_relation
 )
 
 select * from final

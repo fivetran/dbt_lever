@@ -1,3 +1,5 @@
+ADD source_relation WHERE NEEDED + CHECK JOINS AND WINDOW FUNCTIONS! (Delete this line when done.)
+
 with opportunity as (
 
     select *
@@ -24,7 +26,7 @@ opp_stage_history as (
         stage_id,
         updater_user_id,
         to_stage_index as stage_index_in_pipeline,
-        lead(updated_at) over (partition by opportunity_id order by updated_at asc) as valid_ending_at
+        lead(updated_at) over (partition by source_relation, opportunity_id order by updated_at asc) as valid_ending_at
 
     from {{ var('opportunity_stage_history') }}
 ),

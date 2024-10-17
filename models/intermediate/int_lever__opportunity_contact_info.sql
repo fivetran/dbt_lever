@@ -1,3 +1,5 @@
+ADD source_relation WHERE NEEDED + CHECK JOINS AND WINDOW FUNCTIONS! (Delete this line when done.)
+
 with opportunity as (
 
     -- this builds off the source opportunity table, incorporating application and internal user data. 
@@ -26,7 +28,7 @@ order_resumes as (
 
     select 
         *,
-        row_number() over(partition by opportunity_id order by created_at desc) as row_num
+        row_number() over(partition by source_relation, opportunity_id order by created_at desc) as row_num
     
     from {{ var('resume') }}
 ),
@@ -54,12 +56,15 @@ final as (
 
     left join opportunity_sources
         on opportunity.opportunity_id = opportunity_sources.opportunity_id
+        and opportunity.source_relation = opportunity_sources.source_relation
 
     left join latest_resume 
         on latest_resume.opportunity_id = opportunity.opportunity_id
+        and latest_resume.source_relation = opportunity.source_relation
 
     left join contact_info
         on contact_info.contact_id = opportunity.contact_id
+        and contact_info.source_relation = opportunity.source_relation
 )
 
 select *

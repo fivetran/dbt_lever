@@ -1,3 +1,5 @@
+ADD source_relation WHERE NEEDED + CHECK JOINS AND WINDOW FUNCTIONS! (Delete this line when done.)
+
 with application as (
 
     select *
@@ -28,7 +30,7 @@ order_hiring_managers as (
     select 
         posting_id,
         posting_hiring_manager_user_id,
-        row_number() over( partition by posting_id order by created_at desc) as row_num 
+        row_number() over( partition by source_relation, posting_id order by created_at desc) as row_num 
     from application
 ),
 

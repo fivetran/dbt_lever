@@ -1,3 +1,5 @@
+ADD source_relation WHERE NEEDED + CHECK JOINS AND WINDOW FUNCTIONS! (Delete this line when done.)
+
 with contact_phones as (
 
     select 
@@ -47,8 +49,10 @@ final as (
     from contact_emails 
     left join contact_phones 
         on contact_emails.contact_id = contact_phones.contact_id
+        and contact_emails.source_relation = contact_phones.source_relation
     left join contact_links 
         on contact_emails.contact_id = contact_links.contact_id
+        and contact_emails.source_relation = contact_links.source_relation
 )
 
 select * from final

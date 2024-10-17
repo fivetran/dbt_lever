@@ -1,3 +1,5 @@
+ADD source_relation WHERE NEEDED + CHECK JOINS AND WINDOW FUNCTIONS! (Delete this line when done.)
+
 with posting as (
 
     select *
@@ -72,21 +74,26 @@ final as (
 
     left join posting_applications
         on posting.posting_id = posting_applications.posting_id
+        and posting.source_relation = posting_applications.source_relation
     left join posting_interviews
         on posting.posting_id = posting_interviews.posting_id
+        and posting.source_relation = posting_interviews.source_relation
 
     {% if var('lever_using_requisitions', True) %}
     left join posting_requisitions
         on posting.posting_id = posting_requisitions.posting_id
+        and posting.source_relation = posting_requisitions.source_relation
     {% endif %}
 
     {% if var('lever_using_posting_tag', True) %}
     left join posting_tags
         on posting.posting_id = posting_tags.posting_id
+        and posting.source_relation = posting_tags.source_relation
     {% endif %}
 
     left join lever_user 
         on posting_applications.posting_hiring_manager_user_id = lever_user.user_id
+        and posting_applications.source_relation = lever_user.source_relation
 )
 
 select * from final

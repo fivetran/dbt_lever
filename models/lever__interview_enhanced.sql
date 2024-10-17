@@ -1,3 +1,5 @@
+ADD source_relation WHERE NEEDED + CHECK JOINS AND WINDOW FUNCTIONS! (Delete this line when done.)
+
 -- note: each record is a unique interview-interviewer feedback form combo
 -- an interview can have multiple interviewers, and interviewers can have multiple feedback forms
 with interview as (
