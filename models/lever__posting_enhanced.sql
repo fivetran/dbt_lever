@@ -1,5 +1,3 @@
-ADD source_relation WHERE NEEDED + CHECK JOINS AND WINDOW FUNCTIONS! (Delete this line when done.)
-
 with posting as (
 
     select *
@@ -29,12 +27,13 @@ posting_interviews as (
 {% if var('lever_using_requisitions', True) %}
 posting_requisitions as (
 
-    select 
+    select
+        source_relation,
         posting_id,
         count(requisition_id) as count_requisitions
     from {{ var('requisition_posting') }}
 
-    group by 1
+    group by 1,2
 ),
 {% endif %}
 

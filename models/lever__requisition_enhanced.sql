@@ -1,5 +1,3 @@
-ADD source_relation WHERE NEEDED + CHECK JOINS AND WINDOW FUNCTIONS! (Delete this line when done.)
-
 {{ config(enabled=var('lever_using_requisitions', True)) }}
 
 with requisition_users as (
@@ -11,21 +9,23 @@ with requisition_users as (
 requisition_posting as (
 
     select 
+        source_relation,
         requisition_id,
         count(posting_id) as count_postings
     from {{ var('requisition_posting') }}
 
-    group by 1
+    group by 1,2
 ),
 
 requisition_offer as (
 
-    select 
+    select
+        source_relation,
         requisition_id,
         count(offer_id) as count_offers
     from {{ var('requisition_offer') }}
 
-    group by 1
+    group by 1,2
 ),
 
 final as (

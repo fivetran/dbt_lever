@@ -1,5 +1,3 @@
-ADD source_relation WHERE NEEDED + CHECK JOINS AND WINDOW FUNCTIONS! (Delete this line when done.)
-
 with opportunity as (
 
     -- this builds off the source opportunity table, incorporating application and internal user data. 
@@ -9,13 +7,14 @@ with opportunity as (
 
 opportunity_sources as (
 
-    select 
+    select
+        source_relation,
         opportunity_id,
         {{ fivetran_utils.string_agg('source', "', '") }} as sources
 
     from {{ var('opportunity_source') }}
 
-    group by 1
+    group by 1,2
 ),
 
 contact_info as (
@@ -28,7 +27,9 @@ order_resumes as (
 
     select 
         *,
-        row_number() over(partition by source_relation, opportunity_id order by created_at desc) as row_num
+        row_number() over(
+            partition by opportunity_id {{', source_relation' if var('lever_union_schemas', false) or var('lever_union_databases', false) }} 
+            order by created_at desc) as row_num
     
     from {{ var('resume') }}
 ),

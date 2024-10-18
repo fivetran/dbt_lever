@@ -1,5 +1,3 @@
-ADD source_relation WHERE NEEDED + CHECK JOINS AND WINDOW FUNCTIONS! (Delete this line when done.)
-
 with application as (
 
     select *
@@ -9,6 +7,7 @@ with application as (
 agg_applications as (
 
     select 
+        source_relation,
         posting_id,
         min(created_at) as first_app_sent_at,
 
@@ -22,15 +21,18 @@ agg_applications as (
 
     from application
 
-    group by 1
+    group by 1,2
 ),
 
 order_hiring_managers as (
 
     select 
+        source_relation,
         posting_id,
         posting_hiring_manager_user_id,
-        row_number() over( partition by source_relation, posting_id order by created_at desc) as row_num 
+        row_number() over(
+            partition by posting_id {{', source_relation' if var('lever_union_schemas', false) or var('lever_union_databases', false) }} 
+            order by created_at desc) as row_num 
     from application
 ),
 

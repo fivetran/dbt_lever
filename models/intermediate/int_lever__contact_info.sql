@@ -1,30 +1,31 @@
-ADD source_relation WHERE NEEDED + CHECK JOINS AND WINDOW FUNCTIONS! (Delete this line when done.)
-
 with contact_phones as (
 
-    select 
+    select
+        source_relation,
         contact_id,
         {{ fivetran_utils.string_agg("phone_type || ': ' || phone_number" , "', '") }} as phones
 
     from {{ var('contact_phone') }}
 
-    group by 1
+    group by 1,2
 ),
 
 contact_emails as (
 
-    select 
+    select
+        source_relation,
         contact_id,
         {{ fivetran_utils.string_agg("'<' || email || '>'" , "', '") }} as emails
 
     from {{ var('contact_email') }}
 
-    group by 1
+    group by 1,2
 ),
 
 contact_links as (
 
     select 
+        source_relation,
         contact_id,
 
         -- ideally, people only have one of each type of these links. 
@@ -35,7 +36,7 @@ contact_links as (
         max(case when lower(link) like '%github.com%' then link end) as github_link
     
     from {{ var('contact_link') }}
-    group by 1
+    group by 1,2
 ),
 
 final as (

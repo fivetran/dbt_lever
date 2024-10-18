@@ -1,5 +1,3 @@
-ADD source_relation WHERE NEEDED + CHECK JOINS AND WINDOW FUNCTIONS! (Delete this line when done.)
-
 {{ config(enabled=var('lever_using_posting_tag', True)) }}
 
 with posting_tag as (
@@ -11,11 +9,12 @@ with posting_tag as (
 agg_tags as (
 
     select
+        source_relation,
         posting_id,
         {{ fivetran_utils.string_agg('tag_name', "', '") }} as tags 
 
     from posting_tag
-    group by 1
+    group by 1,2
 )
 
 select * from agg_tags

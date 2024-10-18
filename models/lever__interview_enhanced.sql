@@ -1,5 +1,3 @@
-ADD source_relation WHERE NEEDED + CHECK JOINS AND WINDOW FUNCTIONS! (Delete this line when done.)
-
 -- note: each record is a unique interview-interviewer feedback form combo
 -- an interview can have multiple interviewers, and interviewers can have multiple feedback forms
 with interview as (
@@ -34,7 +32,9 @@ join_w_opportunity as (
         opportunity.last_advanced_at > interview.ended_at as has_advanced_since_interview
 
     from interview
-    join opportunity using(opportunity_id)
+    join opportunity 
+    on opportunity.opportunity_id = interview.opportunity_id
+    and opportunity.source_relation = interview.source_relation
 )
 
 select * from join_w_opportunity

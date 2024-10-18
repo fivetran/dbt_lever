@@ -1,5 +1,3 @@
-ADD source_relation WHERE NEEDED + CHECK JOINS AND WINDOW FUNCTIONS! (Delete this line when done.)
-
 with interview_feedback as (
     select *
     from {{ ref('int_lever__interview_feedback') }}

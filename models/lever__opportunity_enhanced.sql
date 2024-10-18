@@ -1,5 +1,3 @@
-ADD source_relation WHERE NEEDED + CHECK JOINS AND WINDOW FUNCTIONS! (Delete this line when done.)
-
 with opportunity as (
 
     select *
@@ -29,7 +27,9 @@ order_offers as (
 
     select 
         *,
-        row_number() over(partition by source_relation, opportunity_id order by created_at desc) as row_num 
+        row_number() over(
+            partition by opportunity_id {{', source_relation' if var('lever_union_schemas', false) or var('lever_union_databases', false) }}
+            order by created_at desc) as row_num 
     from {{ var('offer') }}
 ),
 
@@ -50,7 +50,8 @@ posting as (
 -- to produce some interview metrics 
 interview_metrics as (
 
-    select 
+    select
+        source_relation,
         opportunity_id,
         count(distinct interview_id) as count_interviews,
         count(distinct interviewer_user_id) as count_interviewers, 
@@ -59,7 +60,7 @@ interview_metrics as (
 
     from {{ ref('lever__interview_enhanced') }}
 
-    group by 1
+    group by 1,2
 ),
 
 final as (
