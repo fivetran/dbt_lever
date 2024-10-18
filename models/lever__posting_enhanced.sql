@@ -73,26 +73,26 @@ final as (
 
     left join posting_applications
         on posting.posting_id = posting_applications.posting_id
-        and posting.source_relation = posting_applications.source_relation
+        {{' and posting.source_relation = posting_applications.source_relation' if var('lever_union_schemas', false) or var('lever_union_databases', false) }}
     left join posting_interviews
         on posting.posting_id = posting_interviews.posting_id
-        and posting.source_relation = posting_interviews.source_relation
+        {{' and posting.source_relation = posting_interviews.source_relation' if var('lever_union_schemas', false) or var('lever_union_databases', false) }}
 
     {% if var('lever_using_requisitions', True) %}
     left join posting_requisitions
         on posting.posting_id = posting_requisitions.posting_id
-        and posting.source_relation = posting_requisitions.source_relation
+        {{' and posting.source_relation = posting_requisitions.source_relation' if var('lever_union_schemas', false) or var('lever_union_databases', false) }}
     {% endif %}
 
     {% if var('lever_using_posting_tag', True) %}
     left join posting_tags
         on posting.posting_id = posting_tags.posting_id
-        and posting.source_relation = posting_tags.source_relation
+        {{' and posting.source_relation = posting_tags.source_relation' if var('lever_union_schemas', false) or var('lever_union_databases', false) }}
     {% endif %}
 
     left join lever_user 
         on posting_applications.posting_hiring_manager_user_id = lever_user.user_id
-        and posting_applications.source_relation = lever_user.source_relation
+        {{' and posting_applications.source_relation = lever_user.source_relation' if var('lever_union_schemas', false) or var('lever_union_databases', false) }}
 )
 
 select * from final

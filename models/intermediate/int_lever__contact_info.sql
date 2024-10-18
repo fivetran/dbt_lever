@@ -50,10 +50,10 @@ final as (
     from contact_emails 
     left join contact_phones 
         on contact_emails.contact_id = contact_phones.contact_id
-        and contact_emails.source_relation = contact_phones.source_relation
+        {{ 'and contact_emails.source_relation = contact_phones.source_relation' if var('lever_union_schemas', false) or var('lever_union_databases', false) }}
     left join contact_links 
         on contact_emails.contact_id = contact_links.contact_id
-        and contact_emails.source_relation = contact_links.source_relation
+        {{ 'and contact_emails.source_relation = contact_links.source_relation' if var('lever_union_schemas', false) or var('lever_union_databases', false) }}
 )
 
 select * from final

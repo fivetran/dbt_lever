@@ -61,13 +61,13 @@ join_opportunity_stage_history as (
 
     join stage
         on opp_stage_history.stage_id = stage.stage_id
-        and opp_stage_history.source_relation = stage.source_relation
+        {{ 'and opp_stage_history.source_relation = stage.source_relation' if var('lever_union_schemas', false) or var('lever_union_databases', false) }}
     left join lever_user
         on lever_user.user_id = opp_stage_history.updater_user_id 
-        and lever_user.source_relation = opp_stage_history.source_relation 
+        {{ 'and lever_user.source_relation = opp_stage_history.source_relation' if var('lever_union_schemas', false) or var('lever_union_databases', false) }}
     join opportunity
         on opportunity.opportunity_id = opp_stage_history.opportunity_id
-        and opportunity.source_relation = opp_stage_history.source_relation
+        {{ 'and opportunity.source_relation = opp_stage_history.source_relation' if var('lever_union_schemas', false) or var('lever_union_databases', false) }}
 ),
 
 final_time_in_stages as (

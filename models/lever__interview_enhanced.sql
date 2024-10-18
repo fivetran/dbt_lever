@@ -34,7 +34,7 @@ join_w_opportunity as (
     from interview
     join opportunity 
     on opportunity.opportunity_id = interview.opportunity_id
-    and opportunity.source_relation = interview.source_relation
+    {{ 'and opportunity.source_relation = interview.source_relation' if var('lever_union_schemas', false) or var('lever_union_databases', false) }}
 )
 
 select * from join_w_opportunity

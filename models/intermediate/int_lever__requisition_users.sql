@@ -25,16 +25,16 @@ grab_user_names as (
 
     left join lever_user as creator
         on requisition.creator_user_id = creator.user_id
-        and creator.source_relation = requisition.source_relation
+        {{ 'and creator.source_relation = requisition.source_relation' if var('lever_union_schemas', false) or var('lever_union_databases', false) }}
 
     left join lever_user as hiring_manager
         on requisition.hiring_manager_user_id = hiring_manager.user_id
-        and hiring_manager.source_relation = requisition.source_relation
+        {{ 'and hiring_manager.source_relation = requisition.source_relation' if var('lever_union_schemas', false) or var('lever_union_databases', false) }}
 
     
     left join lever_user as requisition_owner
         on requisition.owner_user_id = requisition_owner.user_id
-        and requisition_owner.source_relation = requisition.source_relation
+        {{ 'and requisition_owner.source_relation = requisition.source_relation' if var('lever_union_schemas', false) or var('lever_union_databases', false) }}
 
 )
 
