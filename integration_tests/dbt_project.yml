@@ -11,6 +11,7 @@ vars:
     lever_feedback_form_field_identifier: "feedback_form_field"
     lever_interview_feedback_identifier: "interview_feedback"
     lever_interview_identifier: "interview"
+    lever_interview_user_identifier: "interview_user"
     lever_interviewer_user_identifier: "interviewer_user"
     lever_offer_identifier: "offer"
     lever_opportunity_source_identifier: "opportunity_source"
@@ -25,6 +26,7 @@ vars:
     lever_requisition_identifier: "requisition"
     lever_stage_identifier: "stage"
     lever_user_identifier: "user"
+    lever_users_identifier: "users"
     lever_contact_email_identifier: "contact_email"
     lever_contact_phone_identifier: "contact_phone"
     lever_contact_link_identifier: "contact_link"
@@ -109,6 +111,11 @@ seeds:
       +column_types:
         created_at: timestamp
     user:
+      +column_types:
+        created_at: timestamp
+        deactivated_at: timestamp
+        id: "{{ 'string' if target.name in ('bigquery', 'spark', 'databricks') else 'varchar' }}"
+    users:
       +column_types:
         created_at: timestamp
         deactivated_at: timestamp
