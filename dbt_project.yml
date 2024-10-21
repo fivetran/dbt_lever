@@ -3,8 +3,6 @@ version: '0.7.0'
 config-version: 2
 require-dbt-version: [">=1.3.0", "<2.0.0"]
 vars:
-  lever_using_requisitions: true
-  lever_using_posting_tag: true
   lever:
     application: "{{ ref('stg_lever__application') }}"
     archive_reason: "{{ ref('stg_lever__archive_reason') }}"
