@@ -22,13 +22,13 @@ grab_user_names as (
 
     left join lever_user as opportunity_owner
         on opportunity_application.owner_user_id = opportunity_owner.user_id
-        {{ 'and opportunity_owner.source_relation = opportunity_application.source_relation' if var('lever_union_schemas', false) or var('lever_union_databases', false) }}
+        and opportunity_owner.source_relation = opportunity_application.source_relation
     left join lever_user as referrer
         on opportunity_application.referrer_user_id = referrer.user_id
-        {{ 'and referrer.source_relation = opportunity_application.source_relation' if var('lever_union_schemas', false) or var('lever_union_databases', false) }}
+        and referrer.source_relation = opportunity_application.source_relation
     left join lever_user as hiring_manager
         on opportunity_application.posting_hiring_manager_user_id = hiring_manager.user_id
-        {{ 'and hiring_manager.source_relation = opportunity_application.source_relation' if var('lever_union_schemas', false) or var('lever_union_databases', false) }}
+        and hiring_manager.source_relation = opportunity_application.source_relation
 )
 
 select * from grab_user_names

@@ -57,15 +57,15 @@ final as (
 
     left join opportunity_sources
         on opportunity.opportunity_id = opportunity_sources.opportunity_id
-        {{ 'and opportunity.source_relation = opportunity_sources.source_relation' if var('lever_union_schemas', false) or var('lever_union_databases', false) }}
+        and opportunity.source_relation = opportunity_sources.source_relation
 
     left join latest_resume 
         on latest_resume.opportunity_id = opportunity.opportunity_id
-        {{ 'and latest_resume.source_relation = opportunity.source_relation' if var('lever_union_schemas', false) or var('lever_union_databases', false) }}
+        and latest_resume.source_relation = opportunity.source_relation
 
     left join contact_info
         on contact_info.contact_id = opportunity.contact_id
-        {{ 'and contact_info.source_relation = opportunity.source_relation' if var('lever_union_schemas', false) or var('lever_union_databases', false) }}
+        and contact_info.source_relation = opportunity.source_relation
 )
 
 select *

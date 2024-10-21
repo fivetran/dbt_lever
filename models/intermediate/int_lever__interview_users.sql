@@ -24,7 +24,7 @@ grab_interviewers as (
     left join interviewer_user 
         on interview_feedback.interview_id = interviewer_user.interview_id
         and interview_feedback.feedback_completer_user_id = interviewer_user.user_id
-        {{ 'and interview_feedback.source_relation = interviewer_user.source_relation' if var('lever_union_schemas', false) or var('lever_union_databases', false) }}
+        and interview_feedback.source_relation = interviewer_user.source_relation
 
 ),
 
@@ -43,15 +43,15 @@ grab_user_names as (
     grab_interviewers
     left join lever_user as interviewer 
         on grab_interviewers.interviewer_user_id = interviewer.user_id
-        {{ 'and interviewer.source_relation = grab_interviewers.source_relation' if var('lever_union_schemas', false) or var('lever_union_databases', false) }}
+        and interviewer.source_relation = grab_interviewers.source_relation
 
     left join lever_user as feedback_completer
         on grab_interviewers.feedback_completer_user_id = feedback_completer.user_id
-        {{ 'and feedback_completer.source_relation = grab_interviewers.source_relation' if var('lever_union_schemas', false) or var('lever_union_databases', false) }}
+        and feedback_completer.source_relation = grab_interviewers.source_relation
 
     left join lever_user as interview_coordinator
         on grab_interviewers.creator_user_id = interview_coordinator.user_id
-        {{ 'and interview_coordinator.source_relation = grab_interviewers.source_relation' if var('lever_union_schemas', false) or var('lever_union_databases', false) }}
+        and interview_coordinator.source_relation = grab_interviewers.source_relation
 
 )
 

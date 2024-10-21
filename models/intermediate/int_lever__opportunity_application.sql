@@ -27,7 +27,7 @@ final as (
     from opportunity
     left join application
         on opportunity.opportunity_id = application.opportunity_id
-        {{ 'and opportunity.source_relation = application.source_relation' if var('lever_union_schemas', false) or var('lever_union_databases', false) }}
+        and opportunity.source_relation = application.source_relation
 )
 
 select *
