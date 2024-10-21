@@ -6,14 +6,14 @@
 with prod as (
      -- valid_ending_at will be off between prod and dev runs, application_sources is a string agg
     select {{ dbt_utils.star(from=ref('lever__opportunity_stage_history'), 
-        except=['valid_ending_at', 'application_sources'] + var('consistency_test_exclude_metrics', '[]')) }}
+        except=['valid_ending_at', 'application_sources'] + var('consistency_test_exclude_metrics', [])) }}
         , {{ dbt.date_trunc('hour', 'valid_ending_at') }} as valid_ending_at_hour
     from {{ target.schema }}_lever_prod.lever__opportunity_stage_history
 ),
 
 dev as (
     select {{ dbt_utils.star(from=ref('lever__opportunity_stage_history'), 
-        except=['valid_ending_at', 'application_sources'] + var('consistency_test_exclude_metrics', '[]')) }}
+        except=['valid_ending_at', 'application_sources'] + var('consistency_test_exclude_metrics', [])) }}
         , {{ dbt.date_trunc('hour', 'valid_ending_at') }} as valid_ending_at_hour
     from {{ target.schema }}_lever_dev.lever__opportunity_stage_history
 ), 

@@ -5,13 +5,13 @@
 
 with prod as (
     select {{ dbt_utils.star(from=ref('lever__opportunity_enhanced'), 
-        except=['sources', 'phones', 'emails', 'tags', 'resume_download_url'] + var('consistency_test_exclude_metrics', '[]')) }} -- exclude string agg fields
+        except=['sources', 'phones', 'emails', 'tags', 'resume_download_url'] + var('consistency_test_exclude_metrics', [])) }} -- exclude string agg fields
     from {{ target.schema }}_lever_prod.lever__opportunity_enhanced
 ),
 
 dev as (
     select {{ dbt_utils.star(from=ref('lever__opportunity_enhanced'), 
-        except=['sources', 'phones', 'emails', 'tags', 'resume_download_url'] + var('consistency_test_exclude_metrics', '[]')) }}
+        except=['sources', 'phones', 'emails', 'tags', 'resume_download_url'] + var('consistency_test_exclude_metrics', [])) }}
     from {{ target.schema }}_lever_dev.lever__opportunity_enhanced
 ), 
 

@@ -5,13 +5,13 @@
 
 with prod as (
     select {{ dbt_utils.star(from=ref('lever__posting_enhanced'), 
-        except=['tags'] + var('consistency_test_exclude_metrics', '[]')) }} -- always exclude tags since it is a string agg.
+        except=['tags'] + var('consistency_test_exclude_metrics', [])) }} -- always exclude tags since it is a string agg.
     from {{ target.schema }}_lever_prod.lever__posting_enhanced
 ),
 
 dev as (
     select {{ dbt_utils.star(from=ref('lever__posting_enhanced'), 
-        except=['tags'] + var('consistency_test_exclude_metrics', '[]')) }}
+        except=['tags'] + var('consistency_test_exclude_metrics', [])) }}
     from {{ target.schema }}_lever_dev.lever__posting_enhanced
 ), 
 

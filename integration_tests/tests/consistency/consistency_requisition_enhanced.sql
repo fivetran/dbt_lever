@@ -4,12 +4,12 @@
 ) }}
 
 with prod as (
-    select {{ dbt_utils.star(from=ref('lever__requisition_enhanced'), except=var('consistency_test_exclude_metrics', '[]')) }}
+    select {{ dbt_utils.star(from=ref('lever__requisition_enhanced'), except=var('consistency_test_exclude_metrics', [])) }}
     from {{ target.schema }}_lever_prod.lever__requisition_enhanced
 ),
 
 dev as (
-    select {{ dbt_utils.star(from=ref('lever__requisition_enhanced'), except=var('consistency_test_exclude_metrics', '[]')) }}
+    select {{ dbt_utils.star(from=ref('lever__requisition_enhanced'), except=var('consistency_test_exclude_metrics', [])) }}
     from {{ target.schema }}_lever_dev.lever__requisition_enhanced
 ), 
 
