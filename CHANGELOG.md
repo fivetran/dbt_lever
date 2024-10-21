@@ -15,6 +15,7 @@
 - Added the `source_relation` column in each staging model to identify the origin of each field, utilizing the `fivetran_utils.source_relation` macro.
 - Updated tests to include the new `source_relation` column.
 - Included the `source_relation` column in all joins and window function partition clauses in the transform package.
+- Added consistency tests for end models.
 
 # dbt_lever v0.6.0
 ## 🎉 Feature Update 🎉
