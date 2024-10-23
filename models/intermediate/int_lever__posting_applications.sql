@@ -50,7 +50,9 @@ final as (
         last_hiring_manager.posting_hiring_manager_user_id
 
     from agg_applications
-    join last_hiring_manager using(posting_id)
+    join last_hiring_manager
+        on agg_applications.posting_id = last_hiring_manager.posting_id
+        and agg_applications.source_relation = last_hiring_manager.source_relation
 )
 
 select * from final

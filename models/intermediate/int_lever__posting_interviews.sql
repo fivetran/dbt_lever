@@ -25,7 +25,9 @@ posting_interview_metrics as (
         count(distinct interview.opportunity_id) as count_interviewees
 
     from posting_interview 
-    join interview using(interview_id)
+    join interview 
+        on posting_interview.interview_id = interview.interview_id
+        and posting_interview.source_relation = interview.source_relation
     group by 1,2
 
 )
