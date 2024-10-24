@@ -16,6 +16,7 @@
 - Updated tests to include the new `source_relation` column.
 - Included the `source_relation` column in all joins and window function partition clauses in the transform package.
 - Added consistency tests for end models.
+- Remove unnecessary tests for intermediate models to reduce resource usage.
 
 # dbt_lever v0.6.0
 ## 🎉 Feature Update 🎉

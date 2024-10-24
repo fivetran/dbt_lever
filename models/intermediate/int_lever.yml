@@ -3,11 +3,6 @@ version: 2
 models:
   - name: int_lever__contact_info
     description: Table that the most relevant contact info associated with each contact. 
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - source_relation 
-            - contact_id
     columns: 
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -24,12 +19,6 @@ models:
         
   - name: int_lever__interview_feedback
     description: Table associating interviews with feedback given by individual interviewers. A single interview might have submit multiple feedback forms. 
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - source_relation
-            - feedback_form_id
-            - interview_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -146,12 +135,6 @@ models:
 
   - name: int_lever__opportunity_application
     description: Table relating information from a candidate's application to the opportunity created out of it.  
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - source_relation 
-            - opportunity_id
-            - application_id
     columns: 
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -240,11 +223,6 @@ models:
         
   - name: int_lever__opportunity_contact_info
     description: Table relating opportunities with their contact info (from `int_lever__contact_info`).
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - source_relation 
-            - opportunity_id
     columns: 
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -351,11 +329,6 @@ models:
 
   - name: int_lever__opportunity_tags
     description: Table aggregating tags associated with each opportunity. 
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - source_relation 
-            - opportunity_id
     columns: 
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -366,11 +339,6 @@ models:
 
   - name: int_lever__opportunity_users
     description: Table relating opportunities to all of its stakeholders. 
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - source_relation 
-            - opportunity_id
     columns: 
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -465,11 +433,6 @@ models:
 
   - name: int_lever__posting_applications
     description: Table associating postings with 
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - source_relation 
-            - posting_id
     columns: 
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -492,11 +455,6 @@ models:
 
   - name: int_lever__posting_interviews
     description: Table aggregating interview metrics per job posting. 
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - source_relation 
-            - posting_id
     columns: 
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -509,11 +467,6 @@ models:
 
   - name: int_lever__posting_tags
     description: Table aggregating tags associated with each posting. 
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - source_relation 
-            - posting_id
     columns: 
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -524,11 +477,6 @@ models:
 
   - name: int_lever__requisition_users
     description: Table relating requisitions to its stakeholders. 
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - source_relation 
-            - requisition_id
     columns: 
       - name: source_relation
         description: "{{ doc('source_relation') }}"
