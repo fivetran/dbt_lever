@@ -27,7 +27,9 @@ order_offers as (
 
     select 
         *,
-        row_number() over(partition by opportunity_id order by created_at desc) as row_num 
+        row_number() over(
+            partition by opportunity_id {{ ', source_relation' if var('lever_union_schemas', false) or var('lever_union_databases', false) }}
+            order by created_at desc) as row_num 
     from {{ var('offer') }}
 ),
 
@@ -48,7 +50,8 @@ posting as (
 -- to produce some interview metrics 
 interview_metrics as (
 
-    select 
+    select
+        source_relation,
         opportunity_id,
         count(distinct interview_id) as count_interviews,
         count(distinct interviewer_user_id) as count_interviewers, 
@@ -57,7 +60,7 @@ interview_metrics as (
 
     from {{ ref('lever__interview_enhanced') }}
 
-    group by 1
+    group by 1,2
 ),
 
 final as (
@@ -90,16 +93,22 @@ final as (
     from opportunity
     join stage  
         on opportunity.stage_id = stage.stage_id
+        and opportunity.source_relation = stage.source_relation
     left join archive_reason
         on opportunity.archived_reason_id = archive_reason.archive_reason_id
+        and opportunity.source_relation = archive_reason.source_relation
     left join opportunity_tags
         on opportunity.opportunity_id = opportunity_tags.opportunity_id
+        and opportunity.source_relation = opportunity_tags.source_relation
     left join last_offer
         on opportunity.opportunity_id = last_offer.opportunity_id
+        and opportunity.source_relation = last_offer.source_relation
     left join posting
         on opportunity.posting_id = posting.posting_id
+        and opportunity.source_relation = posting.source_relation
     left join interview_metrics 
-        on opportunity.opportunity_id = interview_metrics.opportunity_id 
+        on opportunity.opportunity_id = interview_metrics.opportunity_id
+        and opportunity.source_relation = interview_metrics.source_relation
 )
 
 select * from final

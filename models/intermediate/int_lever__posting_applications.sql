@@ -7,6 +7,7 @@ with application as (
 agg_applications as (
 
     select 
+        source_relation,
         posting_id,
         min(created_at) as first_app_sent_at,
 
@@ -20,15 +21,18 @@ agg_applications as (
 
     from application
 
-    group by 1
+    group by 1,2
 ),
 
 order_hiring_managers as (
 
     select 
+        source_relation,
         posting_id,
         posting_hiring_manager_user_id,
-        row_number() over( partition by posting_id order by created_at desc) as row_num 
+        row_number() over(
+            partition by posting_id {{', source_relation' if var('lever_union_schemas', false) or var('lever_union_databases', false) }} 
+            order by created_at desc) as row_num 
     from application
 ),
 
@@ -46,7 +50,9 @@ final as (
         last_hiring_manager.posting_hiring_manager_user_id
 
     from agg_applications
-    join last_hiring_manager using(posting_id)
+    join last_hiring_manager
+        on agg_applications.posting_id = last_hiring_manager.posting_id
+        and agg_applications.source_relation = last_hiring_manager.source_relation
 )
 
 select * from final

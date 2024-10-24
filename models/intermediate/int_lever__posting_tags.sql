@@ -9,11 +9,12 @@ with posting_tag as (
 agg_tags as (
 
     select
+        source_relation,
         posting_id,
         {{ fivetran_utils.string_agg('tag_name', "', '") }} as tags 
 
     from posting_tag
-    group by 1
+    group by 1,2
 )
 
 select * from agg_tags

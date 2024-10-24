@@ -1,3 +1,23 @@
+# dbt_lever v0.7.0
+[PR #21](https://github.com/fivetran/dbt_lever/pull/21) includes the following updates:
+## Features
+- For Fivetran Lever connectors created on or after July 27, 2024, the `USER` and `INTERVIEWER_USER` source tables have been renamed to `USERS` and `INTERVIEW_USER`, respectively. This package now prioritizes the `USERS` and `INTERVIEW_USER` tables if available, falling back to `USER` and `INTERVIEWER_USER` if not.
+  - To continue using the `USER` and/or `INTERVIEWER_USER` tables, set the variables `lever__using_users` and/or `lever__using_interview_user` to false in your `dbt_project.yml`.
+  - For more information, refer to the [July 2024 connector release notes](https://fivetran.com/docs/connectors/applications/lever/changelog#july2024) and the related [README section](https://github.com/fivetran/dbt_lever/blob/main/README.md##leveraging-legacy-connector-table-names).
+
+- Introduced the ability to union source data from multiple Lever connectors. For more details, see the related [README section](https://github.com/fivetran/dbt_lever/blob/main/README.md#union-multiple-connectors).
+
+## Bug fixes
+- Fixed an issue where the dbt package would error due to a missing `CONTACT_LINK` source table for users without source data, even though it was enabled in the Fivetran Connector. A null-filled table will now be generated in such cases.
+
+## Under the hood
+- In the source package, updated temporary models to union source data using the `fivetran_utils.union_data` macro.
+- Added the `source_relation` column in each staging model to identify the origin of each field, utilizing the `fivetran_utils.source_relation` macro.
+- Updated tests to include the new `source_relation` column.
+- Included the `source_relation` column in all joins and window function partition clauses in the transform package.
+- Added consistency tests for end models.
+- Remove unnecessary tests for intermediate models to reduce resource usage.
+
 # dbt_lever v0.6.0
 ## 🎉 Feature Update 🎉
 - PostgreSQL and Databricks compatibility! ([#18](https://github.com/fivetran/dbt_lever/pull/18))
