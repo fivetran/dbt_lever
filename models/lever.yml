@@ -89,14 +89,16 @@ models:
 
   - name: lever__opportunity_enhanced
     description: Table of unique opportunities.
-    columns:
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - source_relation 
+            - opportunity_id
+    columns: 
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: opportunity_id
         description: Unique ID of the opportunity.
-        tests:
-          - unique
-          - not_null
       - name: archived_at
         description: Timestamp of when the opportunity was archived. 
       - name: archived_reason_id
@@ -294,14 +296,16 @@ models:
 
   - name: lever__posting_enhanced
     description: Table capturing job postings.
-    columns:
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - source_relation 
+            - posting_id
+    columns: 
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: posting_id
         description: Unique ID of the job posting. 
-        tests:
-          - unique
-          - not_null
       - name: job_commitment
         description: Tag for job position work type (e.g. Full-time, Part-time, Internship).
       - name: job_department
@@ -362,14 +366,16 @@ models:
       
   - name: lever__requisition_enhanced
     description: Table capturing requisitions, if enabled.
-    columns:
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - source_relation 
+            - requisition_id
+    columns: 
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: requisition_id
         description: Unique id of the requisition.
-        tests:
-          - unique
-          - not_null
       - name: is_backfill
         description: > 
           Boolean that is true if the requisition represents a backfill or new headcount. 

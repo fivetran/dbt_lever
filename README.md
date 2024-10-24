@@ -77,7 +77,7 @@ vars:
 ```
 ### (Optional) Step 5: Additional configurations
 
-<details><summary>Expand for configurations</summary>
+<details open><summary>Expand/collapse configurations</summary>
 
 #### Passing Through Custom Requisition Columns
 If you choose to include requisitions, the `REQUISITION` table may also have custom columns (all prefixed by `custom_field_`). To pass these columns through to the [enhanced requisition model](https://github.com/fivetran/dbt_lever/blob/master/models/lever__requisition_enhanced.sql), add the following variable to your `dbt_project.yml` file:
