@@ -7,7 +7,7 @@ models:
   +schema: "lever_{{ var('directed_schema','dev') }}"
 
 vars:
-  lever_schema: lever_integration_tests
+  lever_schema: zz_lever #xlever_integration_tests
   lever_source:
     lever_application_identifier: "application"
     lever_archive_reason_identifier: "archive_reason"

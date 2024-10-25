@@ -2,7 +2,13 @@ version: 2
 
 models:
   - name: lever__interview_enhanced
-    description: Table in which each row is a unique interview-feedback combo. Interviews without feedback appear here as well. 
+    description: Table in which each row is a unique interview-feedback combo. Interviews without feedback appear here as well.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - source_relation
+            - feedback_form_id
+            - interview_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
