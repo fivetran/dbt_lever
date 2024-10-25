@@ -116,7 +116,8 @@ vars:
 ### Leveraging Legacy Connector Table Names
 For Fivetran Lever connectors created on or after July 27, 2024, the `USER` and `INTERVIEWER_USER` source tables have been renamed to `USERS` and `INTERVIEW_USER`, respectively. This package now prioritizes the `USERS` and `INTERVIEW_USER` tables if available, falling back to `USER` and `INTERVIEWER_USER` if not.
 
-To continue using the `USER` and/or `INTERVIEWER_USER` tables, set the variables `lever__using_users` and/or `lever__using_interview_user` to false in your `dbt_project.yml`.
+If you have both tables in your schema and would like to specify this package to leverage the `USER` and/or `INTERVIEWER_USER` tables, you can set the variables `lever__using_users` and/or `lever__using_interview_user` to false in your `dbt_project.yml`.
+
 ```yml
 vars:
     lever__using_users: false # Default is true to use USERS. Set to false to use USER.
