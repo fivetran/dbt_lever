@@ -33,7 +33,7 @@ join_w_opportunity as (
 
     from interview
     join opportunity 
-    on opportunity.opportunity_id = interview.opportunity_id
+        on opportunity.opportunity_id = interview.opportunity_id
         and opportunity.source_relation = interview.source_relation
 )
 
