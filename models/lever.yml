@@ -30,6 +30,8 @@ models:
         description: Google calendar event url. 
       - name: interview_id
         description: Unique ID of the interview. 
+        tests:
+          - not_null
       - name: location
         description: >
           Interview location. Usually the name of a booked conference room but can also be a 
@@ -50,6 +52,8 @@ models:
         description: Name of timezone in which interview was scheduled to occur.
       - name: feedback_form_id
         description: Unique id of the feedback form. 
+        tests:
+          - not_null
       - name: feedback_completer_user_id
         description: Foreign key referencing the USER who completed the feedback.
       - name: feedback_completed_at
@@ -82,6 +86,8 @@ models:
         description: Boolean that is true if the interviewer is also the hiring manager of this position. 
       - name: interviewee_name
         description: Full name of the interviewee candidate. 
+      - name: interviewee_location
+        description: Location of the interviewee candidate. 
       - name: interviewee_origin
         description: >
           The way in which the interviewed opportunity was added to lever. Includes 'agency', 'applied', 'internal',
@@ -105,6 +111,8 @@ models:
         description: "{{ doc('source_relation') }}"
       - name: opportunity_id
         description: Unique ID of the opportunity.
+        tests:
+          - not_null
       - name: archived_at
         description: Timestamp of when the opportunity was archived. 
       - name: archived_reason_id
@@ -312,6 +320,8 @@ models:
         description: "{{ doc('source_relation') }}"
       - name: posting_id
         description: Unique ID of the job posting. 
+        tests:
+          - not_null
       - name: job_commitment
         description: Tag for job position work type (e.g. Full-time, Part-time, Internship).
       - name: job_department
@@ -382,6 +392,8 @@ models:
         description: "{{ doc('source_relation') }}"
       - name: requisition_id
         description: Unique id of the requisition.
+        tests:
+          - not_null
       - name: is_backfill
         description: > 
           Boolean that is true if the requisition represents a backfill or new headcount. 
@@ -403,6 +415,7 @@ models:
       - name: headcount_hired
         description: The number of filled seats / openings on the requisition, or the string, 'unlimited'.
       - name: headcount_infinite
+        description: Indicates if the headcount for the job requisition is unlimited, allowing for an unrestricted number of hires.
       - name: headcount_total_allotted
         description: Total headcount allotted for this requisition.
       - name: hiring_manager_user_id
