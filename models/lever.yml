@@ -52,8 +52,6 @@ models:
         description: Name of timezone in which interview was scheduled to occur.
       - name: feedback_form_id
         description: Unique id of the feedback form. 
-        tests:
-          - not_null
       - name: feedback_completer_user_id
         description: Foreign key referencing the USER who completed the feedback.
       - name: feedback_completed_at
