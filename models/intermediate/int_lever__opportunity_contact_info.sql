@@ -7,13 +7,14 @@ with opportunity as (
 
 opportunity_sources as (
 
-    select 
+    select
+        source_relation,
         opportunity_id,
         {{ fivetran_utils.string_agg('source', "', '") }} as sources
 
     from {{ var('opportunity_source') }}
 
-    group by 1
+    group by 1,2
 ),
 
 contact_info as (
@@ -26,7 +27,9 @@ order_resumes as (
 
     select 
         *,
-        row_number() over(partition by opportunity_id order by created_at desc) as row_num
+        row_number() over(
+            partition by opportunity_id {{', source_relation' if var('lever_union_schemas', false) or var('lever_union_databases', false) }} 
+            order by created_at desc) as row_num
     
     from {{ var('resume') }}
 ),
@@ -54,12 +57,15 @@ final as (
 
     left join opportunity_sources
         on opportunity.opportunity_id = opportunity_sources.opportunity_id
+        and opportunity.source_relation = opportunity_sources.source_relation
 
     left join latest_resume 
         on latest_resume.opportunity_id = opportunity.opportunity_id
+        and latest_resume.source_relation = opportunity.source_relation
 
     left join contact_info
         on contact_info.contact_id = opportunity.contact_id
+        and contact_info.source_relation = opportunity.source_relation
 )
 
 select *

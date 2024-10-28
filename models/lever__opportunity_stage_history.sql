@@ -18,13 +18,16 @@ lever_user as (
 
 opp_stage_history as (
 
-    select 
+    select
+        source_relation,
         opportunity_id,
         updated_at as valid_from,
         stage_id,
         updater_user_id,
         to_stage_index as stage_index_in_pipeline,
-        lead(updated_at) over (partition by opportunity_id order by updated_at asc) as valid_ending_at
+        lead(updated_at) over (
+            partition by opportunity_id {{', source_relation' if var('lever_union_schemas', false) or var('lever_union_databases', false) }} 
+            order by updated_at asc) as valid_ending_at
 
     from {{ var('opportunity_stage_history') }}
 ),
@@ -33,6 +36,7 @@ opp_stage_history as (
 join_opportunity_stage_history as (
 
     select 
+        opp_stage_history.source_relation,
         opp_stage_history.opportunity_id,
         opportunity.contact_name as opportunity_contact_name,
         opp_stage_history.valid_from,
@@ -55,9 +59,15 @@ join_opportunity_stage_history as (
 
     from opp_stage_history
 
-    join stage on opp_stage_history.stage_id = stage.stage_id
-    left join lever_user on lever_user.user_id = opp_stage_history.updater_user_id 
-    join opportunity on opportunity.opportunity_id = opp_stage_history.opportunity_id
+    join stage
+        on opp_stage_history.stage_id = stage.stage_id
+        and opp_stage_history.source_relation = stage.source_relation
+    left join lever_user
+        on lever_user.user_id = opp_stage_history.updater_user_id 
+        and lever_user.source_relation = opp_stage_history.source_relation
+    join opportunity
+        on opportunity.opportunity_id = opp_stage_history.opportunity_id
+        and opportunity.source_relation = opp_stage_history.source_relation
 ),
 
 final_time_in_stages as (

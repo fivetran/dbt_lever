@@ -36,8 +36,10 @@ join_w_feedback as (
     from interview
     left join interview_feedback 
         on interview.interview_id = interview_feedback.interview_id
+        and interview.source_relation = interview_feedback.source_relation
     left join feedback_form 
         on interview_feedback.feedback_form_id = feedback_form.feedback_form_id
+        and interview_feedback.source_relation = feedback_form.source_relation
 )
 
 select *

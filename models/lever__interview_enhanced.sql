@@ -32,7 +32,9 @@ join_w_opportunity as (
         opportunity.last_advanced_at > interview.ended_at as has_advanced_since_interview
 
     from interview
-    join opportunity using(opportunity_id)
+    join opportunity 
+        on opportunity.opportunity_id = interview.opportunity_id
+        and opportunity.source_relation = interview.source_relation
 )
 
 select * from join_w_opportunity

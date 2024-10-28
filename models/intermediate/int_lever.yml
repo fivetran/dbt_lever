@@ -4,11 +4,10 @@ models:
   - name: int_lever__contact_info
     description: Table that the most relevant contact info associated with each contact. 
     columns: 
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: contact_id
         description: Unique ID of the contact. 
-        tests:
-          - unique
-          - not_null
       - name: emails
         description: Aggregated list of email addresses associated with this contact. 
       - name: phones
@@ -20,12 +19,9 @@ models:
         
   - name: int_lever__interview_feedback
     description: Table associating interviews with feedback given by individual interviewers. A single interview might have submit multiple feedback forms. 
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: 
-            - feedback_form_id # todo: check if this works with null values
-            - interview_id
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: canceled_at
         description: Timestamp of when the interview was canceled.
       - name: created_at
@@ -139,12 +135,11 @@ models:
 
   - name: int_lever__opportunity_application
     description: Table relating information from a candidate's application to the opportunity created out of it.  
-    columns:
+    columns: 
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: opportunity_id
         description: Unique ID of the opportunity.
-        tests:
-          - unique
-          - not_null
       - name: archived_at
         description: Timestamp of when the opportunity was archived. 
       - name: archived_reason_id
@@ -228,12 +223,11 @@ models:
         
   - name: int_lever__opportunity_contact_info
     description: Table relating opportunities with their contact info (from `int_lever__contact_info`).
-    columns:
+    columns: 
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: opportunity_id
         description: Unique ID of the opportunity.
-        tests:
-          - unique
-          - not_null
       - name: archived_at
         description: Timestamp of when the opportunity was archived. 
       - name: archived_reason_id
@@ -335,23 +329,21 @@ models:
 
   - name: int_lever__opportunity_tags
     description: Table aggregating tags associated with each opportunity. 
-    columns:
+    columns: 
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: opportunity_id
         description: Foreign key referencing the OPPORTUNITY that was tagged.
-        tests: 
-          - unique
-          - not_null 
       - name: tags
         description: Aggregated coma-separated list of the tags associated with this opportunity.
 
   - name: int_lever__opportunity_users
     description: Table relating opportunities to all of its stakeholders. 
-    columns:
+    columns: 
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: opportunity_id
         description: Unique ID of the opportunity.
-        tests:
-          - unique
-          - not_null
       - name: archived_at
         description: Timestamp of when the opportunity was archived. 
       - name: archived_reason_id
@@ -441,12 +433,11 @@ models:
 
   - name: int_lever__posting_applications
     description: Table associating postings with 
-    columns:
+    columns: 
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: posting_id
         description: Foreign key referencing the id of the job POSTING.
-        tests:
-          - unique
-          - not_null
       - name: first_app_sent_at
         description: Timestamp of when the first application was submitted to this posting. 
       - name: count_referred_applications
@@ -464,12 +455,11 @@ models:
 
   - name: int_lever__posting_interviews
     description: Table aggregating interview metrics per job posting. 
-    columns:
+    columns: 
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: posting_id
         description: Foreign key referencing the id of the job POSTING.
-        tests:
-          - unique
-          - not_null
       - name: count_interviews
         description: Count of the number of interviews conducted for this posting. 
       - name: count_interviewees
@@ -477,23 +467,21 @@ models:
 
   - name: int_lever__posting_tags
     description: Table aggregating tags associated with each posting. 
-    columns:
+    columns: 
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: posting_id
         description: Foreign key referencing the id of the job POSTING.
-        tests:
-          - unique
-          - not_null
       - name: tags
         description: Comma-separated aggregated list of tags. 
 
   - name: int_lever__requisition_users
     description: Table relating requisitions to its stakeholders. 
-    columns:
+    columns: 
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: requisition_id
         description: Unique id of the requisition.
-        tests:
-          - unique
-          - not_null
       - name: is_backfill
         description: > 
           Boolean that is true if the requisition represents a backfill or new headcount. 

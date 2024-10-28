@@ -2,8 +2,16 @@ version: 2
 
 models:
   - name: lever__interview_enhanced
-    description: Table in which each row is a unique interview-feedback combo. Interviews without feedback appear here as well. 
+    description: Table in which each row is a unique interview-feedback combo. Interviews without feedback appear here as well.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - source_relation
+            - feedback_form_id
+            - interview_id
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: canceled_at
         description: Timestamp of when the interview was canceled.
       - name: created_at
@@ -22,6 +30,8 @@ models:
         description: Google calendar event url. 
       - name: interview_id
         description: Unique ID of the interview. 
+        tests:
+          - not_null
       - name: location
         description: >
           Interview location. Usually the name of a booked conference room but can also be a 
@@ -74,6 +84,8 @@ models:
         description: Boolean that is true if the interviewer is also the hiring manager of this position. 
       - name: interviewee_name
         description: Full name of the interviewee candidate. 
+      - name: interviewee_location
+        description: Location of the interviewee candidate. 
       - name: interviewee_origin
         description: >
           The way in which the interviewed opportunity was added to lever. Includes 'agency', 'applied', 'internal',
@@ -87,11 +99,17 @@ models:
 
   - name: lever__opportunity_enhanced
     description: Table of unique opportunities.
-    columns:
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - source_relation 
+            - opportunity_id
+    columns: 
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: opportunity_id
         description: Unique ID of the opportunity.
         tests:
-          - unique
           - not_null
       - name: archived_at
         description: Timestamp of when the opportunity was archived. 
@@ -244,6 +262,8 @@ models:
   - name: lever__opportunity_stage_history
     description: Table capturing each stage that an opportunity has advanced too.
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: opportunity_id
         description: Foreign key referencing the id of the OPPORTUNITY.
       - name: valid_from
@@ -288,11 +308,17 @@ models:
 
   - name: lever__posting_enhanced
     description: Table capturing job postings.
-    columns:
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - source_relation 
+            - posting_id
+    columns: 
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: posting_id
         description: Unique ID of the job posting. 
         tests:
-          - unique
           - not_null
       - name: job_commitment
         description: Tag for job position work type (e.g. Full-time, Part-time, Internship).
@@ -354,11 +380,17 @@ models:
       
   - name: lever__requisition_enhanced
     description: Table capturing requisitions, if enabled.
-    columns:
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - source_relation 
+            - requisition_id
+    columns: 
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: requisition_id
         description: Unique id of the requisition.
         tests:
-          - unique
           - not_null
       - name: is_backfill
         description: > 
@@ -381,6 +413,7 @@ models:
       - name: headcount_hired
         description: The number of filled seats / openings on the requisition, or the string, 'unlimited'.
       - name: headcount_infinite
+        description: Indicates if the headcount for the job requisition is unlimited, allowing for an unrestricted number of hires.
       - name: headcount_total_allotted
         description: Total headcount allotted for this requisition.
       - name: hiring_manager_user_id
