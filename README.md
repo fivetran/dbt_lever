@@ -13,7 +13,7 @@
 # Lever Transformation dbt Package ([Docs](https://fivetran.github.io/dbt_lever/))
 ## What does this dbt package do?
 - Produces modeled tables that leverage Lever data from [Fivetran's connector](https://fivetran.com/docs/applications/lever) in the format described by [this ERD](https://fivetran.com/docs/applications/lever#schemainformation) and builds off the output of our [Lever source package](https://github.com/fivetran/dbt_lever_source).
-> NOTE: If your Lever connector was created [prior to July 2020](https://fivetran.com/docs/applications/lever/changelog) or still uses the Candidate endpoint, you must fully re-sync your connector or set up a new connector to use Fivetran's Lever dbt packages.
+> NOTE: If your Lever connection was created [prior to July 2020](https://fivetran.com/docs/applications/lever/changelog) or still uses the Candidate endpoint, you must fully re-sync your connection or set up a new connection to use Fivetran's Lever dbt packages.
 
 - Enables you to understand trends in recruiting, interviewing, and hiring at your company. It also provides recruiting stakeholders with information about individual opportunities, interviews, and jobs. It achieves this by:
     - Enriching the core opportunity, interview, job posting, and requisition tables with relevant pipeline data and metrics
