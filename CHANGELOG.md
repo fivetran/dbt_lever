@@ -1,3 +1,9 @@
+# dbt_lever version.version
+
+## Documentation
+- Added Quickstart model counts to README. ([#24](https://github.com/fivetran/dbt_lever/pull/24))
+- Corrected references to connectors and connections in the README. ([#24](https://github.com/fivetran/dbt_lever/pull/24))
+
 # dbt_lever v0.7.0
 [PR #21](https://github.com/fivetran/dbt_lever/pull/21) includes the following updates:
 ## Features
