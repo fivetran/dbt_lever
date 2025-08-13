@@ -1,7 +1,7 @@
 with opportunity_tag as (
 
     select *
-    from {{ var('opportunity_tag') }}
+    from {{ ref('stg_lever__opportunity_tag') }}
 ),
 
 agg_tags as (

@@ -5,7 +5,7 @@ with contact_phones as (
         contact_id,
         {{ fivetran_utils.string_agg("phone_type || ': ' || phone_number" , "', '") }} as phones
 
-    from {{ var('contact_phone') }}
+    from {{ ref('stg_lever__contact_phone') }}
 
     group by 1,2
 ),
@@ -17,7 +17,7 @@ contact_emails as (
         contact_id,
         {{ fivetran_utils.string_agg("'<' || email || '>'" , "', '") }} as emails
 
-    from {{ var('contact_email') }}
+    from {{ ref('stg_lever__contact_email') }}
 
     group by 1,2
 ),
@@ -35,7 +35,7 @@ contact_links as (
         max(case when lower(link) like '%linkedin.com%' then link end) as linkedin_link,
         max(case when lower(link) like '%github.com%' then link end) as github_link
     
-    from {{ var('contact_link') }}
+    from {{ ref('stg_lever__contact_link') }}
     group by 1,2
 ),
 

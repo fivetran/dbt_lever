@@ -1,7 +1,7 @@
 with posting as (
 
     select *
-    from {{ var('posting') }}
+    from {{ ref('stg_lever__posting') }}
 ),
 
 {% if var('lever_using_posting_tag', True) %}
@@ -31,7 +31,7 @@ posting_requisitions as (
         source_relation,
         posting_id,
         count(requisition_id) as count_requisitions
-    from {{ var('requisition_posting') }}
+    from {{ ref('stg_lever__requisition_posting') }}
 
     group by 1,2
 ),
@@ -40,7 +40,7 @@ posting_requisitions as (
 lever_user as (
 
     select *
-    from {{ var('user') }}
+    from {{ ref('stg_lever__user') }}
 ),
 
 final as (

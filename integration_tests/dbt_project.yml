@@ -1,5 +1,5 @@
 name: 'lever_integration_tests'
-version: '0.8.0'
+version: '1.0.0'
 config-version: 2
 profile: 'integration_tests'
 
@@ -36,30 +36,30 @@ vars:
     lever_contact_link_identifier: "contact_link"
     lever_resume_identifier: "resume"
   lever:
-    application: "{{ ref('stg_lever__application') }}"
-    archive_reason: "{{ ref('stg_lever__archive_reason') }}"
-    feedback_form: "{{ ref('stg_lever__feedback_form') }}"
-    feedback_form_field: "{{ ref('stg_lever__feedback_form_field') }}"
-    interview_feedback: "{{ ref('stg_lever__interview_feedback') }}"
-    interview: "{{ ref('stg_lever__interview') }}"
-    interviewer_user: "{{ ref('stg_lever__interviewer_user') }}"
-    offer: "{{ ref('stg_lever__offer') }}"
-    opportunity_source: "{{ ref('stg_lever__opportunity_source') }}"
-    opportunity_stage_history: "{{ ref('stg_lever__opportunity_stage_history') }}"
-    opportunity_tag: "{{ ref('stg_lever__opportunity_tag') }}"
-    opportunity: "{{ ref('stg_lever__opportunity') }}"
-    posting_interview: "{{ ref('stg_lever__posting_interview') }}"
-    posting_tag: "{{ ref('stg_lever__posting_tag') }}"
-    posting: "{{ ref('stg_lever__posting') }}"
-    requisition_posting: "{{ ref('stg_lever__requisition_posting') }}"
-    requisition_offer: "{{ ref('stg_lever__requisition_offer') }}"
-    requisition: "{{ ref('stg_lever__requisition') }}"
-    stage: "{{ ref('stg_lever__stage') }}"
-    user: "{{ ref('stg_lever__user') }}"
-    contact_email: "{{ ref('stg_lever__contact_email') }}"
-    contact_phone: "{{ ref('stg_lever__contact_phone') }}"
-    contact_link: "{{ ref('stg_lever__contact_link') }}"
-    resume: "{{ ref('stg_lever__resume') }}"
+    application: "{{ source('lever', 'application') }}"
+    archive_reason: "{{ source('lever', 'archive_reason') }}"
+    feedback_form: "{{ source('lever', 'feedback_form') }}"
+    feedback_form_field: "{{ source('lever', 'feedback_form_field') }}"
+    interview_feedback: "{{ source('lever', 'interview_feedback') }}"
+    interview: "{{ source('lever', 'interview') }}"
+    interviewer_user: "{{ source('lever', 'interviewer_user') }}"
+    offer: "{{ source('lever', 'offer') }}"
+    opportunity_source: "{{ source('lever', 'opportunity_source') }}"
+    opportunity_stage_history: "{{ source('lever', 'opportunity_stage_history') }}"
+    opportunity_tag: "{{ source('lever', 'opportunity_tag') }}"
+    opportunity: "{{ source('lever', 'opportunity') }}"
+    posting_interview: "{{ source('lever', 'posting_interview') }}"
+    posting_tag: "{{ source('lever', 'posting_tag') }}"
+    posting: "{{ source('lever', 'posting') }}"
+    requisition_posting: "{{ source('lever', 'requisition_posting') }}"
+    requisition_offer: "{{ source('lever', 'requisition_offer') }}"
+    requisition: "{{ source('lever', 'requisition') }}"
+    stage: "{{ source('lever', 'stage') }}"
+    user: "{{ source('lever', 'user') }}"
+    contact_email: "{{ source('lever', 'contact_email') }}"
+    contact_phone: "{{ source('lever', 'contact_phone') }}"
+    contact_link: "{{ source('lever', 'contact_link') }}"
+    resume: "{{ source('lever', 'resume') }}"
 seeds:
   lever_integration_tests:
     +column_types:

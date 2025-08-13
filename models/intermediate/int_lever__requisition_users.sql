@@ -3,13 +3,13 @@
 with lever_user as (
 
     select *
-    from {{ var('user') }}
+    from {{ ref('stg_lever__user') }}
 ),
 
 requisition as (
     
     select *
-    from {{ var('requisition') }}
+    from {{ ref('stg_lever__requisition') }}
 ),
 
 -- necessary users = req owner, creator, hiring manager

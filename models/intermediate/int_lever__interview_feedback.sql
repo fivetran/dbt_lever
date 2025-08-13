@@ -1,7 +1,7 @@
 with interview as (
 
     select *
-    from {{ var('interview') }}
+    from {{ ref('stg_lever__interview') }}
 
 ),
 
@@ -9,13 +9,13 @@ with interview as (
 interview_feedback as (
 
     select *
-    from {{ var('interview_feedback') }}
+    from {{ ref('stg_lever__interview_feedback') }}
 ),
 
 feedback_form as (
 
     select *
-    from {{ var('feedback_form') }}
+    from {{ ref('stg_lever__feedback_form') }}
 
     where deleted_at is null
 ),
