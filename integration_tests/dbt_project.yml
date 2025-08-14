@@ -61,6 +61,8 @@ vars:
     contact_link: "{{ source('lever', 'contact_link') }}"
     resume: "{{ source('lever', 'resume') }}"
 seeds:
+  +docs:
+    show: False
   lever_integration_tests:
     +column_types:
       _fivetran_synced: timestamp
@@ -149,3 +151,5 @@ dispatch:
     search_order: ['spark_utils', 'dbt_utils']
 flags:
   send_anonymous_usage_stats: False
+
+  use_colors: True
