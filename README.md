@@ -1,5 +1,5 @@
 
-# Lever Transformation dbt Package ([Docs](https://fivetran.github.io/dbt_lever/))
+# Lever dbt Package ([Docs](https://fivetran.github.io/dbt_lever/))
 
 <p align="left">
     <a alt="License"
@@ -69,6 +69,7 @@ vars:
     lever_database: your_database_name
     lever_schema: your_schema_name 
 ```
+
 ### Step 4: Disable models for non-existent sources
 Your Lever connection might not sync every table that this package expects. If your syncs exclude certain tables, it is because you either don't use that functionality in Lever or have actively excluded some tables from your syncs. To disable the corresponding functionality in the package, you must set the relevant config variables to `false`. By default, all variables are set to `true`. Alter variables for only the tables you want to disable:
 
@@ -112,7 +113,7 @@ models:
 #### Change the source table references
 If an individual source table has a different name than the package expects, add the table name as it appears in your destination to the respective variable:
 
-> IMPORTANT: See this project's [`dbt_project.yml`](https://github.com/fivetran/dbt_lever_source/blob/main/dbt_project.yml) variable declarations to see the expected names.
+> IMPORTANT: See this project's [`dbt_project.yml`](https://github.com/fivetran/dbt_lever/blob/main/dbt_project.yml) variable declarations to see the expected names.
 
 ```yml
 vars:
@@ -138,7 +139,7 @@ vars:
     lever_union_schemas: ['lever_usa','lever_canada'] # use this if the data is in different schemas/datasets of the same database/project
     lever_union_databases: ['lever_usa','lever_canada'] # use this if the data is in different databases/projects but uses the same schema name
 ```
-Please be aware that the native `source.yml` connection set up in the package will not function when the union schema/database feature is utilized. Although the data will be correctly combined, you will not observe the sources linked to the package models in the Directed Acyclic Graph (DAG). This happens because the package includes only one defined `source.yml`.
+Please be aware that the native `src_lever.yml` connection set up in the package will not function when the union schema/database feature is utilized. Although the data will be correctly combined, you will not observe the sources linked to the package models in the Directed Acyclic Graph (DAG). This happens because the package includes only one defined `src_lever.yml`.
 
 To connect your multiple schema/database sources to the package models, follow the steps outlined in the [Union Data Defined Sources Configuration](https://github.com/fivetran/dbt_fivetran_utils/tree/releases/v0.4.latest#union_data-source) section of the Fivetran Utils documentation for the union_data macro. This will ensure a proper configuration and correct visualization of connections in the DAG.
 

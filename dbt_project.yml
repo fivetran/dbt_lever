@@ -2,6 +2,7 @@ name: 'lever'
 version: '1.0.0'
 config-version: 2
 require-dbt-version: [">=1.3.0", "<2.0.0"]
+
 vars:
   lever:
     application: "{{ source('lever', 'application') }}"
@@ -31,11 +32,13 @@ vars:
     contact_phone: "{{ source('lever', 'contact_phone') }}"
     contact_link: "{{ source('lever', 'contact_link') }}"
     resume: "{{ source('lever', 'resume') }}"
+
 models:
   lever:
     +materialized: table
     intermediate:
       +materialized: ephemeral
     staging:
-      +schema: lever_source
-      +materialized: view
+      +materialized: table
+      tmp:
+        +materialized: view

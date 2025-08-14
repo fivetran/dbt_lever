@@ -8,7 +8,7 @@ models:
 
 vars:
   lever_schema: lever_integration_tests
-  lever_source:
+  lever:
     lever_application_identifier: "application"
     lever_archive_reason_identifier: "archive_reason"
     lever_feedback_form_identifier: "feedback_form"
@@ -35,31 +35,7 @@ vars:
     lever_contact_phone_identifier: "contact_phone"
     lever_contact_link_identifier: "contact_link"
     lever_resume_identifier: "resume"
-  lever:
-    application: "{{ source('lever', 'application') }}"
-    archive_reason: "{{ source('lever', 'archive_reason') }}"
-    feedback_form: "{{ source('lever', 'feedback_form') }}"
-    feedback_form_field: "{{ source('lever', 'feedback_form_field') }}"
-    interview_feedback: "{{ source('lever', 'interview_feedback') }}"
-    interview: "{{ source('lever', 'interview') }}"
-    interviewer_user: "{{ source('lever', 'interviewer_user') }}"
-    offer: "{{ source('lever', 'offer') }}"
-    opportunity_source: "{{ source('lever', 'opportunity_source') }}"
-    opportunity_stage_history: "{{ source('lever', 'opportunity_stage_history') }}"
-    opportunity_tag: "{{ source('lever', 'opportunity_tag') }}"
-    opportunity: "{{ source('lever', 'opportunity') }}"
-    posting_interview: "{{ source('lever', 'posting_interview') }}"
-    posting_tag: "{{ source('lever', 'posting_tag') }}"
-    posting: "{{ source('lever', 'posting') }}"
-    requisition_posting: "{{ source('lever', 'requisition_posting') }}"
-    requisition_offer: "{{ source('lever', 'requisition_offer') }}"
-    requisition: "{{ source('lever', 'requisition') }}"
-    stage: "{{ source('lever', 'stage') }}"
-    user: "{{ source('lever', 'user') }}"
-    contact_email: "{{ source('lever', 'contact_email') }}"
-    contact_phone: "{{ source('lever', 'contact_phone') }}"
-    contact_link: "{{ source('lever', 'contact_link') }}"
-    resume: "{{ source('lever', 'resume') }}"
+
 seeds:
   +docs:
     show: False
@@ -149,7 +125,7 @@ seeds:
 dispatch:
   - macro_namespace: dbt_utils
     search_order: ['spark_utils', 'dbt_utils']
+
 flags:
   send_anonymous_usage_stats: False
-
   use_colors: True
