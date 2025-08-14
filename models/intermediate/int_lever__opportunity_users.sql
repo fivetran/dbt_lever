@@ -1,6 +1,6 @@
 with lever_user as (
     select *
-    from {{ var('user') }}
+    from {{ ref('stg_lever__user') }}
 ),
 
 opportunity_application as (

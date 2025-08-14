@@ -7,13 +7,13 @@ with opportunity as (
 stage as (
 
     select *
-    from {{ var('stage') }}
+    from {{ ref('stg_lever__stage') }}
 ),
 
 lever_user as (
 
     select *
-    from {{ var('user') }}
+    from {{ ref('stg_lever__user') }}
 ),
 
 opp_stage_history as (
@@ -29,7 +29,7 @@ opp_stage_history as (
             partition by opportunity_id {{', source_relation' if var('lever_union_schemas', false) or var('lever_union_databases', false) }} 
             order by updated_at asc) as valid_ending_at
 
-    from {{ var('opportunity_stage_history') }}
+    from {{ ref('stg_lever__opportunity_stage_history') }}
 ),
 
 -- joining first to get opportunity.archived_at for the valid_ending_at column

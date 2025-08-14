@@ -1,0 +1,12 @@
+{{
+    fivetran_utils.union_data(
+        table_identifier='opportunity_stage_history', 
+        database_variable='lever_database', 
+        schema_variable='lever_schema', 
+        default_database=target.database,
+        default_schema='lever',
+        default_variable='opportunity_stage_history',
+        union_schema_variable='lever_union_schemas',
+        union_database_variable='lever_union_databases'
+    )
+}}

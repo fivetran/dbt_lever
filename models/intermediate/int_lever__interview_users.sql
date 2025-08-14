@@ -5,13 +5,13 @@ with interview_feedback as (
 
 lever_user as (
     select *
-    from {{ var('user') }}
+    from {{ ref('stg_lever__user') }}
 ),
 
 interviewer_user as (
 
     select *
-    from {{ var('interviewer_user') }}
+    from {{ ref('stg_lever__interviewer_user') }}
 ),
 
 -- there can be multiple interviewers for one interview

@@ -1,4 +1,7 @@
-<p align="center">
+
+# Lever dbt Package ([Docs](https://fivetran.github.io/dbt_lever/))
+
+<p align="left">
     <a alt="License"
         href="https://github.com/fivetran/dbt_lever/blob/main/LICENSE">
         <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" /></a>
@@ -8,11 +11,13 @@
         <img src="https://img.shields.io/badge/Maintained%3F-yes-green.svg" /></a>
     <a alt="PRs">
         <img src="https://img.shields.io/badge/Contributions-welcome-blueviolet" /></a>
+    <a alt="Fivetran Quickstart Compatible"
+        href="https://fivetran.com/docs/transformations/dbt/quickstart">
+        <img src="https://img.shields.io/badge/Fivetran_Quickstart_Compatible%3F-yes-green.svg" /></a>
 </p>
 
-# Lever Transformation dbt Package ([Docs](https://fivetran.github.io/dbt_lever/))
 ## What does this dbt package do?
-- Produces modeled tables that leverage Lever data from [Fivetran's connector](https://fivetran.com/docs/applications/lever) in the format described by [this ERD](https://fivetran.com/docs/applications/lever#schemainformation) and builds off the output of our [Lever source package](https://github.com/fivetran/dbt_lever_source).
+- Produces modeled tables that leverage Lever data from [Fivetran's connector](https://fivetran.com/docs/applications/lever) in the format described by [this ERD](https://fivetran.com/docs/applications/lever#schemainformation).
 > NOTE: If your Lever connection was created [prior to July 2020](https://fivetran.com/docs/applications/lever/changelog) or still uses the Candidate endpoint, you must fully re-sync your connection or set up a new connection to use Fivetran's Lever dbt packages.
 
 - Enables you to understand trends in recruiting, interviewing, and hiring at your company. It also provides recruiting stakeholders with information about individual opportunities, interviews, and jobs. It achieves this by:
@@ -24,7 +29,6 @@
 <!--section=“lever_transformation_model"-->
 The following table provides a detailed list of all tables materialized within this package by default.
 > TIP: See more details about these tables in the package's [dbt docs site](https://fivetran.github.io/dbt_lever/#!/overview?g_v=1).
-
 
 | **Table**                | **Description**                                                                                                                                |
 | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -52,10 +56,10 @@ Include the following lever package version in your `packages.yml` file:
 ```yaml
 packages:
   - package: fivetran/lever
-    version: [">=0.8.0", "<0.9.0"]
+    version: [">=1.0.0", "<1.1.0"]
 ```
 
-Do **NOT** include the `lever_source` package in this file. The transformation package itself has a dependency on it and will install the source package as well.
+> All required sources and staging models are now bundled into this transformation package. Do not include `fivetran/lever_source` in your `packages.yml` since this package has been deprecated.
 
 ### Step 3: Define database and schema variables
 By default, this package runs using your destination and the `lever` schema. If this is not where your Lever data is (for example, if your Lever schema is named `lever_fivetran`), add the following configuration to your root `dbt_project.yml` file:
@@ -65,6 +69,7 @@ vars:
     lever_database: your_database_name
     lever_schema: your_schema_name 
 ```
+
 ### Step 4: Disable models for non-existent sources
 Your Lever connection might not sync every table that this package expects. If your syncs exclude certain tables, it is because you either don't use that functionality in Lever or have actively excluded some tables from your syncs. To disable the corresponding functionality in the package, you must set the relevant config variables to `false`. By default, all variables are set to `true`. Alter variables for only the tables you want to disable:
 
@@ -99,16 +104,16 @@ By default, this package builds the Lever staging models within a schema titled 
 
 ```yml
 models:
-    lever_source:
-      +schema: my_new_schema_name # leave blank for just the target_schema
     lever:
-      +schema: my_new_schema_name # leave blank for just the target_schema
+      +schema: my_new_schema_name # Leave +schema: blank to use the default target_schema.
+      staging:
+        +schema: my_new_schema_name # Leave +schema: blank to use the default target_schema.
 ```
-    
+
 #### Change the source table references
 If an individual source table has a different name than the package expects, add the table name as it appears in your destination to the respective variable:
 
-> IMPORTANT: See this project's [`dbt_project.yml`](https://github.com/fivetran/dbt_lever_source/blob/main/dbt_project.yml) variable declarations to see the expected names.
+> IMPORTANT: See this project's [`dbt_project.yml`](https://github.com/fivetran/dbt_lever/blob/main/dbt_project.yml) variable declarations to see the expected names.
 
 ```yml
 vars:
@@ -134,7 +139,7 @@ vars:
     lever_union_schemas: ['lever_usa','lever_canada'] # use this if the data is in different schemas/datasets of the same database/project
     lever_union_databases: ['lever_usa','lever_canada'] # use this if the data is in different databases/projects but uses the same schema name
 ```
-Please be aware that the native `source.yml` connection set up in the package will not function when the union schema/database feature is utilized. Although the data will be correctly combined, you will not observe the sources linked to the package models in the Directed Acyclic Graph (DAG). This happens because the package includes only one defined `source.yml`.
+Please be aware that the native `src_lever.yml` connection set up in the package will not function when the union schema/database feature is utilized. Although the data will be correctly combined, you will not observe the sources linked to the package models in the Directed Acyclic Graph (DAG). This happens because the package includes only one defined `src_lever.yml`.
 
 To connect your multiple schema/database sources to the package models, follow the steps outlined in the [Union Data Defined Sources Configuration](https://github.com/fivetran/dbt_fivetran_utils/tree/releases/v0.4.latest#union_data-source) section of the Fivetran Utils documentation for the union_data macro. This will ensure a proper configuration and correct visualization of connections in the DAG.
 
@@ -143,19 +148,16 @@ To connect your multiple schema/database sources to the package models, follow t
 ### (Optional) Step 6: Orchestrate your models with Fivetran Transformations for dbt Core™
 <details><summary>Expand for details</summary>
 <br>
-    
+
 Fivetran offers the ability for you to orchestrate your dbt project through [Fivetran Transformations for dbt Core™](https://fivetran.com/docs/transformations/dbt). Learn how to set up your project for orchestration through Fivetran in our [Transformations for dbt Core setup guides](https://fivetran.com/docs/transformations/dbt#setupguide).
 </details>
 
 ## Does this package have dependencies?
 This dbt package is dependent on the following dbt packages. These dependencies are installed by default within this package. For more information on the following packages, refer to the [dbt hub](https://hub.getdbt.com/) site.
 > IMPORTANT: If you have any of these dependent packages in your own `packages.yml` file, we highly recommend that you remove them from your root `packages.yml` to avoid package version conflicts.
-    
+
 ```yml
 packages:
-    - package: fivetran/lever_source
-      version: [">=0.8.0", "<0.9.0"]
-
     - package: fivetran/fivetran_utils
       version: [">=0.4.0", "<0.5.0"]
 

@@ -12,7 +12,7 @@ requisition_posting as (
         source_relation,
         requisition_id,
         count(posting_id) as count_postings
-    from {{ var('requisition_posting') }}
+    from {{ ref('stg_lever__requisition_posting') }}
 
     group by 1,2
 ),
@@ -23,7 +23,7 @@ requisition_offer as (
         source_relation,
         requisition_id,
         count(offer_id) as count_offers
-    from {{ var('requisition_offer') }}
+    from {{ ref('stg_lever__requisition_offer') }}
 
     group by 1,2
 ),
