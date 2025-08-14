@@ -1,13 +1,13 @@
 with opportunity as (
 
     select *
-    from {{ var('opportunity') }}
+    from {{ ref('stg_lever__opportunity') }}
 ),
 
 application as (
 
     select *
-    from {{ var('application') }}
+    from {{ ref('stg_lever__application') }}
 ),
 
 final as (

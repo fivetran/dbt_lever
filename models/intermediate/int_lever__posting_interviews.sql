@@ -1,7 +1,7 @@
 with posting_interview as (
 
     select *
-    from {{ var('posting_interview') }}
+    from {{ ref('stg_lever__posting_interview') }}
 
 ),
 
@@ -12,7 +12,7 @@ interview as (
         interview_id,
         opportunity_id 
 
-    from {{ var('interview') }}
+    from {{ ref('stg_lever__interview') }}
 
 ),
 

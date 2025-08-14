@@ -1,7 +1,7 @@
 with application as (
 
     select *
-    from {{ var('application') }}
+    from {{ ref('stg_lever__application') }}
 ),
 
 agg_applications as (

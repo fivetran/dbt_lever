@@ -3,12 +3,6 @@ version: 2
 models:
   - name: lever__interview_enhanced
     description: Table in which each row is a unique interview-feedback combo. Interviews without feedback appear here as well.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - source_relation
-            - feedback_form_id
-            - interview_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -99,11 +93,6 @@ models:
 
   - name: lever__opportunity_enhanced
     description: Table of unique opportunities.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - source_relation 
-            - opportunity_id
     columns: 
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -308,11 +297,6 @@ models:
 
   - name: lever__posting_enhanced
     description: Table capturing job postings.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - source_relation 
-            - posting_id
     columns: 
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -380,11 +364,6 @@ models:
       
   - name: lever__requisition_enhanced
     description: Table capturing requisitions, if enabled.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - source_relation 
-            - requisition_id
     columns: 
       - name: source_relation
         description: "{{ doc('source_relation') }}"

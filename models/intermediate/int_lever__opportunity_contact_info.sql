@@ -12,7 +12,7 @@ opportunity_sources as (
         opportunity_id,
         {{ fivetran_utils.string_agg('source', "', '") }} as sources
 
-    from {{ var('opportunity_source') }}
+    from {{ ref('stg_lever__opportunity_source') }}
 
     group by 1,2
 ),
@@ -31,7 +31,7 @@ order_resumes as (
             partition by opportunity_id {{', source_relation' if var('lever_union_schemas', false) or var('lever_union_databases', false) }} 
             order by created_at desc) as row_num
     
-    from {{ var('resume') }}
+    from {{ ref('stg_lever__resume') }}
 ),
 
 latest_resume as (

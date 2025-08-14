@@ -7,13 +7,13 @@ with opportunity as (
 stage as (
 
     select *
-    from {{ var('stage') }}
+    from {{ ref('stg_lever__stage') }}
 ),
 
 archive_reason as (
 
     select *
-    from {{ var('archive_reason') }}
+    from {{ ref('stg_lever__archive_reason') }}
 ),
 
 opportunity_tags as (
@@ -30,7 +30,7 @@ order_offers as (
         row_number() over(
             partition by opportunity_id {{ ', source_relation' if var('lever_union_schemas', false) or var('lever_union_databases', false) }}
             order by created_at desc) as row_num 
-    from {{ var('offer') }}
+    from {{ ref('stg_lever__offer') }}
 ),
 
 last_offer as (

@@ -3,7 +3,7 @@
 with posting_tag as (
 
     select *
-    from {{ var('posting_tag') }}
+    from {{ ref('stg_lever__posting_tag') }}
 ),
 
 agg_tags as (
