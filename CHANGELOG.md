@@ -1,3 +1,17 @@
+# dbt_lever v1.1.0
+
+## Feature Update
+- **Union Data Functionality**: This release standardizes the union data feature to support running the package on multiple Lever source connections. The package now uses the `lever_sources` variable pattern for configuration. See the [README](https://github.com/fivetran/dbt_lever/tree/main?tab=readme-ov-file#step-3-define-database-and-schema-variables) for details on how to leverage this feature.
+
+## Under the Hood
+- Standardized union data macros to use `lever` namespace instead of generic `<package name>` placeholders:
+  - Updated `lever_union_connections()`, `lever_union_relations()`, `apply_source_relation()`, and `partition_by_source_relation()` macros
+- Migrated all staging tmp models from `fivetran_utils.union_data()` to `lever.lever_union_connections()`
+- Migrated all staging models from `fivetran_utils.source_relation()` to `lever.apply_source_relation()`
+- Updated window functions in intermediate and final models to use `lever.partition_by_source_relation()` macro
+- Updated source configuration with `enabled` condition to disable single-source definition when unioning
+- Replaced old union variable pattern (`lever_union_schemas`/`lever_union_databases`) with new `lever_sources` pattern
+
 # dbt_lever v1.0.0
 
 [PR #29](https://github.com/fivetran/dbt_lever/pull/29) includes the following updates:

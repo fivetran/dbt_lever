@@ -8,8 +8,9 @@ sources:
     schema: "{{ var ('lever_schema', 'lever') }}"
 
     loader: fivetran
-      
+
     config:
+      enabled: "{{ var('lever_sources', []) == [] }}"
       loaded_at_field: _fivetran_synced
       freshness:
         warn_after: {count: 72, period: hour}

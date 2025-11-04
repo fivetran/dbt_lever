@@ -31,7 +31,7 @@ order_hiring_managers as (
         posting_id,
         posting_hiring_manager_user_id,
         row_number() over(
-            partition by posting_id {{', source_relation' if var('lever_union_schemas', false) or var('lever_union_databases', false) }} 
+            partition by posting_id {{ lever.partition_by_source_relation() }}
             order by created_at desc) as row_num 
     from application
 ),
