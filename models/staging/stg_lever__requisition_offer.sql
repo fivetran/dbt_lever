@@ -18,10 +18,7 @@ fields as (
             )
         }}
 
-        {{ fivetran_utils.source_relation(
-            union_schema_variable='lever_union_schemas', 
-            union_database_variable='lever_union_databases') 
-        }}
+        {{ lever.apply_source_relation() }}
 
     from base
 ),

@@ -28,7 +28,7 @@ order_resumes as (
     select 
         *,
         row_number() over(
-            partition by opportunity_id {{', source_relation' if var('lever_union_schemas', false) or var('lever_union_databases', false) }} 
+            partition by opportunity_id {{ lever.partition_by_source_relation() }}
             order by created_at desc) as row_num
     
     from {{ ref('stg_lever__resume') }}

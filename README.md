@@ -56,18 +56,78 @@ Include the following lever package version in your `packages.yml` file:
 ```yaml
 packages:
   - package: fivetran/lever
-    version: [">=1.0.0", "<1.1.0"]
+    version: [">=1.1.0", "<1.2.0"]
 ```
 
 > All required sources and staging models are now bundled into this transformation package. Do not include `fivetran/lever_source` in your `packages.yml` since this package has been deprecated.
 
 ### Step 3: Define database and schema variables
-By default, this package runs using your destination and the `lever` schema. If this is not where your Lever data is (for example, if your Lever schema is named `lever_fivetran`), add the following configuration to your root `dbt_project.yml` file:
+
+#### Option A: Single connection
+By default, this package runs using your [destination](https://docs.getdbt.com/docs/running-a-dbt-project/using-the-command-line-interface/configure-your-profile) and the `lever` schema. If this is not where your Lever data is (for example, if your Lever schema is named `lever_fivetran`), add the following configuration to your root `dbt_project.yml` file:
 
 ```yml
 vars:
+  lever:
     lever_database: your_database_name
-    lever_schema: your_schema_name 
+    lever_schema: your_schema_name
+```
+
+#### Option B: Union multiple connections
+If you have multiple Lever connections in Fivetran and would like to use this package on all of them simultaneously, we have provided functionality to do so. For each source table, the package will union all of the data together and pass the unioned table into the transformations. The `source_relation` column in each model indicates the origin of each record.
+
+To use this functionality, you will need to set the `lever_sources` variable in your root `dbt_project.yml` file:
+
+```yml
+# dbt_project.yml
+
+vars:
+  lever:
+    lever_sources:
+      - database: connection_1_destination_name # Required
+        schema: connection_1_schema_name # Required
+        name: connection_1_source_name # Required only if following the step in the following subsection
+
+      - database: connection_2_destination_name
+        schema: connection_2_schema_name
+        name: connection_2_source_name
+```
+
+##### Recommended: Incorporate unioned sources into DAG
+> *If you are running the package through [Fivetran Transformations for dbt Core™](https://fivetran.com/docs/transformations/dbt#transformationsfordbtcore), the below step is necessary in order to synchronize model runs with your Lever connections. Alternatively, you may choose to run the package through Fivetran [Quickstart](https://fivetran.com/docs/transformations/quickstart), which would create separate sets of models for each Lever source rather than one set of unioned models.*
+
+By default, this package defines one single-connection source, called `lever`, which will be disabled if you are unioning multiple connections. This means that your DAG will not include your Lever sources, though the package will run successfully.
+
+To properly incorporate all of your Lever connections into your project's DAG:
+1. Define each of your sources in a `.yml` file in your project. Utilize the following template for the `source`-level configurations, and, **most importantly**, copy and paste the table and column-level definitions from the package's `src_lever.yml` [file](https://github.com/fivetran/dbt_lever/blob/main/models/staging/src_lever.yml).
+
+```yml
+# a .yml file in your root project
+
+version: 2
+
+sources:
+  - name: <name> # ex: Should match name in lever_sources
+    schema: <schema_name>
+    database: <database_name>
+    loader: fivetran
+    config:
+      loaded_at_field: _fivetran_synced
+      freshness: # feel free to adjust to your liking
+        warn_after: {count: 72, period: hour}
+        error_after: {count: 168, period: hour}
+
+    tables: # copy and paste from lever/models/staging/src_lever.yml - see https://support.atlassian.com/bitbucket-cloud/docs/yaml-anchors/ for how to use anchors to only do so once
+```
+
+> **Note**: If there are source tables you do not have (see [Step 4](#step-4-disable-models-for-non-existent-sources)), you may still include them, as long as you have set the right variables to `False`.
+
+2. Set the `has_defined_sources` variable (scoped to the `lever` package) to `True`, like such:
+```yml
+# dbt_project.yml
+vars:
+  lever:
+    has_defined_sources: true
 ```
 
 ### Step 4: Disable models for non-existent sources
@@ -130,18 +190,6 @@ vars:
     lever__using_users: false # Default is true to use USERS. Set to false to use USER.
     lever__using_interview_user: false # Default is true to use INTERVIEW_USER. Set to false to use INTERVIEWER_USER.
 ```
-
-### Union multiple connections
-If you have multiple lever connections in Fivetran and would like to use this package on all of them simultaneously, we have provided functionality to do so. The package will union all of the data together and pass the unioned table into the transformations. You will be able to see which source it came from in the `source_relation` column of each model. To use this functionality, you will need to set either the `lever_union_schemas` OR `lever_union_databases` variables (cannot do both) in your root `dbt_project.yml` file:
-
-```yml
-vars:
-    lever_union_schemas: ['lever_usa','lever_canada'] # use this if the data is in different schemas/datasets of the same database/project
-    lever_union_databases: ['lever_usa','lever_canada'] # use this if the data is in different databases/projects but uses the same schema name
-```
-Please be aware that the native `src_lever.yml` connection set up in the package will not function when the union schema/database feature is utilized. Although the data will be correctly combined, you will not observe the sources linked to the package models in the Directed Acyclic Graph (DAG). This happens because the package includes only one defined `src_lever.yml`.
-
-To connect your multiple schema/database sources to the package models, follow the steps outlined in the [Union Data Defined Sources Configuration](https://github.com/fivetran/dbt_fivetran_utils/tree/releases/v0.4.latest#union_data-source) section of the Fivetran Utils documentation for the union_data macro. This will ensure a proper configuration and correct visualization of connections in the DAG.
 
 </details>
 
