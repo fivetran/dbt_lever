@@ -1,3 +1,10 @@
+# dbt_lever v1.1.0
+
+[PR #32](https://github.com/fivetran/dbt_lever/pull/32) includes the following updates:
+
+## Features
+  - Increases the required dbt version upper limit to v3.0.0
+
 # dbt_lever v1.0.0
 
 [PR #29](https://github.com/fivetran/dbt_lever/pull/29) includes the following updates:
