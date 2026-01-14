@@ -11,6 +11,15 @@ table_variables:
   lever_using_posting_tag:
     - posting_tag
 
+  _fivetran_quickstart_feedback_form_field:
+    - feedback_form_field
+  _fivetran_quickstart_panel:
+    - panel
+  _fivetran_quickstart_panel_application:
+    - panel_application
+  _fivetran_quickstart_panel_interview:
+    - panel_interview
+
 destination_configurations:
   databricks:
     dispatch:
@@ -24,3 +33,10 @@ public_models: [
   "lever__opportunity_enhanced",
   "lever__interview_enhanced"
 ]
+
+supported_vars:
+  lever_requisition_passthrough_columns:
+    type: dictionary
+    description: "Addtional `REQUISITION` fields to include in `lever__requisition_enhanced`"
+    display_name: "Additional Requisition Columns"
+
