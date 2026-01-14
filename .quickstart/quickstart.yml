@@ -37,6 +37,6 @@ public_models: [
 supported_vars:
   lever_requisition_passthrough_columns:
     type: dictionary
-    description: "Addtional `REQUISITION` fields to include in `lever__requisition_enhanced`"
+    description: "Additional `REQUISITION` fields to include in `lever__requisition_enhanced`"
     display_name: "Additional Requisition Columns"
 
