@@ -4,6 +4,9 @@ config-version: 2
 profile: 'integration_tests'
 
 models:
+  +persist_docs:
+    relation: true
+    columns: true
   +schema: "lever_{{ var('directed_schema','dev') }}"
 
 vars:
