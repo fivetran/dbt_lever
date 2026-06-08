@@ -1,5 +1,5 @@
 name: 'lever_integration_tests'
-version: '1.2.0'
+version: '1.3.0'
 config-version: 2
 profile: 'integration_tests'
 
@@ -99,7 +99,7 @@ seeds:
     posting_tag:
       +column_types:
         _fivetran_synced: timestamp
-      +quote_columns: "{{ true if target.type == 'redshift' else false }}"
+      +quote_columns: "{{ target.type == 'redshift' or var('fivetran_using_source_casing', false) }}"
     requisition:
       +column_types:
         _fivetran_synced: timestamp
@@ -119,7 +119,7 @@ seeds:
     opportunity_tag:
       +column_types:
         _fivetran_synced: timestamp
-      +quote_columns: "{{ true if target.type == 'redshift' else false }}"
+      +quote_columns: "{{ target.type == 'redshift' or var('fivetran_using_source_casing', false) }}"
     contact_phone:
       +column_types:
         _fivetran_synced: timestamp

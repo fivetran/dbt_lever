@@ -1,3 +1,5 @@
+{% if var('lever_union_schemas', []) | length > 0 or var('lever_union_databases', []) | length > 0 %}
+
 {{
     fivetran_utils.union_data(
         table_identifier='interview_user' if lever.does_table_exist('interview_user') else 'interviewer_user', 
@@ -10,3 +12,15 @@
         union_database_variable='lever_union_databases'
     )
 }}
+
+{% else %}
+
+{{
+    fivetran_utils.union_connections(
+        connection_dictionary='lever_sources',
+        single_source_name='lever',
+        single_table_name='interview_user' if lever.does_table_exist('interview_user') else 'interviewer_user'
+    )
+}}
+
+{% endif %}

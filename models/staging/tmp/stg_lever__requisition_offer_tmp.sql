@@ -1,5 +1,6 @@
-
 {{ config(enabled=var('lever_using_requisitions', True)) }}
+
+{% if var('lever_union_schemas', []) | length > 0 or var('lever_union_databases', []) | length > 0 %}
 
 {{
     fivetran_utils.union_data(
@@ -13,3 +14,15 @@
         union_database_variable='lever_union_databases'
     )
 }}
+
+{% else %}
+
+{{
+    fivetran_utils.union_connections(
+        connection_dictionary='lever_sources',
+        single_source_name='lever',
+        single_table_name='requisition_offer'
+    )
+}}
+
+{% endif %}

@@ -65,19 +65,46 @@ Include the following lever package version in your `packages.yml` file:
 ```yaml
 packages:
   - package: fivetran/lever
-    version: [">=1.2.0", "<1.3.0"]
+    version: [">=1.3.0", "<1.4.0"]
 ```
 
 > All required sources and staging models are now bundled into this transformation package. Do not include `fivetran/lever_source` in your `packages.yml` since this package has been deprecated.
 
 ### Define database and schema variables
+#### Option A: Single connection
 By default, this package runs using your destination and the `lever` schema. If this is not where your Lever data is (for example, if your Lever schema is named `lever_fivetran`), add the following configuration to your root `dbt_project.yml` file:
 
 ```yml
 vars:
-    lever_database: your_database_name
-    lever_schema: your_schema_name 
+    lever_database: your_destination_name
+    lever_schema: your_schema_name
 ```
+
+#### Option B: Union multiple connections
+If you have multiple Lever connections in Fivetran and would like to use this package on all of them simultaneously, we have provided functionality to do so. For each source table, the package will union all of the data together and pass the unioned table into the transformations. The `source_relation` column in each model indicates the origin of each record.
+
+To use this functionality, you will need to set the `lever_sources` variable in your root `dbt_project.yml` file:
+
+```yml
+# dbt_project.yml
+
+vars:
+  lever:
+    lever_sources:
+      - database: connection_1_destination_name # Required
+        schema: connection_1_schema_name # Required
+        name: connection_1_source_name # Required only if following the step in the following subsection
+
+      - database: connection_2_destination_name
+        schema: connection_2_schema_name
+        name: connection_2_source_name
+```
+
+> Previous versions of this package employed two separate, mutually exclusive variables for unioning: `lever_union_schemas` and `lever_union_databases`. While these variables are still supported, `lever_sources` is the recommended variable to configure.
+
+#### Optional: Incorporate unioned sources into DAG
+
+If you use [Fivetran Transformations for dbt Core™](https://fivetran.com/docs/transformations/dbt#transformationsfordbtcore) and are unioning multiple Lever connections, you can define your sources in a property `.yml` file, [using this as a template](https://github.com/fivetran/dbt_lever/blob/main/models/staging/src_lever.yml). Set the variable `has_defined_sources: true` under the Lever namespace in your `dbt_project.yml`. Otherwise, your Lever connections won't appear in your DAG. See the `union_connections` macro [documentation](https://github.com/fivetran/dbt_fivetran_utils/tree/releases/v0.4.latest#optional-union-connections-defined-sources-configuration) for full configuration details.
 
 ### Disable models for non-existent sources
 Your Lever connection might not sync every table that this package expects. If your syncs exclude certain tables, it is because you either don't use that functionality in Lever or have actively excluded some tables from your syncs. To disable the corresponding functionality in the package, you must set the relevant config variables to `false`. By default, all variables are set to `true`. Alter variables for only the tables you want to disable:
@@ -129,6 +156,14 @@ vars:
     lever_<default_source_table_name>_identifier: your_table_name 
 ```
 
+#### Source casing for case-sensitive destinations
+By default, the package applies case-insensitive comparisons when resolving `source_relation` values. If your destination is case-sensitive and you want downstream transformations to respect the exact casing of your source database and schema names, set the following variable:
+
+```yml
+vars:
+    fivetran_using_source_casing: true
+```
+
 ### Leveraging Legacy Connector Table Names
 For Fivetran Lever connections created on or after July 27, 2024, the `USER` and `INTERVIEWER_USER` source tables have been renamed to `USERS` and `INTERVIEW_USER`, respectively. This package now prioritizes the `USERS` and `INTERVIEW_USER` tables if available, falling back to `USER` and `INTERVIEWER_USER` if not.
 
@@ -139,18 +174,6 @@ vars:
     lever__using_users: false # Default is true to use USERS. Set to false to use USER.
     lever__using_interview_user: false # Default is true to use INTERVIEW_USER. Set to false to use INTERVIEWER_USER.
 ```
-
-### Union multiple connections
-If you have multiple lever connections in Fivetran and would like to use this package on all of them simultaneously, we have provided functionality to do so. The package will union all of the data together and pass the unioned table into the transformations. You will be able to see which source it came from in the `source_relation` column of each model. To use this functionality, you will need to set either the `lever_union_schemas` OR `lever_union_databases` variables (cannot do both) in your root `dbt_project.yml` file:
-
-```yml
-vars:
-    lever_union_schemas: ['lever_usa','lever_canada'] # use this if the data is in different schemas/datasets of the same database/project
-    lever_union_databases: ['lever_usa','lever_canada'] # use this if the data is in different databases/projects but uses the same schema name
-```
-Please be aware that the native `src_lever.yml` connection set up in the package will not function when the union schema/database feature is utilized. Although the data will be correctly combined, you will not observe the sources linked to the package models in the Directed Acyclic Graph (DAG). This happens because the package includes only one defined `src_lever.yml`.
-
-To connect your multiple schema/database sources to the package models, follow the steps outlined in the [Union Data Defined Sources Configuration](https://github.com/fivetran/dbt_fivetran_utils/tree/releases/v0.4.latest#union_data-source) section of the Fivetran Utils documentation for the union_data macro. This will ensure a proper configuration and correct visualization of connections in the DAG.
 
 </details>
 

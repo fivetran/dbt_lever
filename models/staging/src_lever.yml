@@ -10,6 +10,7 @@ sources:
     loader: fivetran
       
     config:
+      enabled: "{{ var('lever_sources', []) == [] }}"
       loaded_at_field: _fivetran_synced
       freshness:
         warn_after: {count: 72, period: hour}
@@ -580,4 +581,4 @@ sources:
           - name: file_uploaded_at  
             description: Timestamp of when the file was uploaded.
           - name: opportunity_id
-            description: Foreign key referencing the OPPORTUNITY associated with this resume. 
+            description: Foreign key referencing the OPPORTUNITY associated with this resume.
