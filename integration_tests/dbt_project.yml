@@ -43,6 +43,7 @@ seeds:
   +docs:
     show: False
   lever_integration_tests:
+    +quote_columns: "{{ target.type in ('redshift', 'postgres') or var('fivetran_using_source_casing', false) }}"
     application:
       +column_types:
         _fivetran_synced: timestamp
@@ -99,7 +100,6 @@ seeds:
     posting_tag:
       +column_types:
         _fivetran_synced: timestamp
-      +quote_columns: "{{ target.type == 'redshift' or var('fivetran_using_source_casing', false) }}"
     requisition:
       +column_types:
         _fivetran_synced: timestamp
@@ -119,7 +119,6 @@ seeds:
     opportunity_tag:
       +column_types:
         _fivetran_synced: timestamp
-      +quote_columns: "{{ target.type == 'redshift' or var('fivetran_using_source_casing', false) }}"
     contact_phone:
       +column_types:
         _fivetran_synced: timestamp
