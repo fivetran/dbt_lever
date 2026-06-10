@@ -13,7 +13,7 @@
 > As of [August 2025](https://fivetran.com/docs/connectors/applications/lever/changelog#august2025), all Lever connectors use the current `users` and `interview_user` table names. The `lever__using_users` and `lever__using_interview_user` variables have been removed alongside the legacy source definitions.
 
 ## Feature Updates
-- Introduces the new (recommended) `lever_sources` variable for more robust union data configuration. The old `lever_union_schemas` and `lever_union_databases` variables are still supported. See the [README](https://github.com/fivetran/dbt_lever/tree/main#define-database-and-schema-variables) for details.
+- Introduces the new (recommended) `lever_sources` variable for more robust union data configuration. The old `lever_union_schemas` and `lever_union_databases` variables will still be supported. See the [README](https://github.com/fivetran/dbt_lever/tree/main#define-database-and-schema-variables) for specific details.
 
 ## Under the Hood
 - Adds the `fivetran_using_source_casing` variable for case-sensitive destination support. When enabled, downstream transformations respect source casing to ensure consistent results. See the [Additional Configurations](https://github.com/fivetran/dbt_lever/#source-casing-for-case-sensitive-destinations) section of the README for details.
