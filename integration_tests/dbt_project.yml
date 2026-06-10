@@ -19,7 +19,6 @@ vars:
     lever_interview_feedback_identifier: "interview_feedback"
     lever_interview_identifier: "interview"
     lever_interview_user_identifier: "interview_user"
-    lever_interviewer_user_identifier: "interviewer_user"
     lever_offer_identifier: "offer"
     lever_opportunity_source_identifier: "opportunity_source"
     lever_opportunity_stage_history_identifier: "opportunity_stage_history"
@@ -32,7 +31,6 @@ vars:
     lever_requisition_offer_identifier: "requisition_offer"
     lever_requisition_identifier: "requisition"
     lever_stage_identifier: "stage"
-    lever_user_identifier: "user"
     lever_users_identifier: "users"
     lever_contact_email_identifier: "contact_email"
     lever_contact_phone_identifier: "contact_phone"
@@ -104,12 +102,6 @@ seeds:
       +column_types:
         _fivetran_synced: timestamp
         created_at: timestamp
-    user:
-      +column_types:
-        _fivetran_synced: timestamp
-        created_at: timestamp
-        deactivated_at: timestamp
-        id: "{{ 'string' if target.name in ('bigquery', 'spark', 'databricks') else 'varchar' }}"
     users:
       +column_types:
         _fivetran_synced: timestamp
@@ -150,9 +142,6 @@ seeds:
       +column_types:
         _fivetran_synced: timestamp
     interview_user:
-      +column_types:
-        _fivetran_synced: timestamp
-    interviewer_user:
       +column_types:
         _fivetran_synced: timestamp
     opportunity_source:

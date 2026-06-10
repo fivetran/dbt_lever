@@ -11,7 +11,7 @@ fields as (
         {{
             fivetran_utils.fill_staging_columns(
                 source_columns=adapter.get_columns_in_relation(ref('stg_lever__interviewer_user_tmp')),
-                staging_columns=get_interviewer_user_columns()
+                staging_columns=get_interview_user_columns()
             )
         }}
 

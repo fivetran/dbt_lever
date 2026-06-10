@@ -151,38 +151,8 @@ sources:
           - name: posting_id
             description: Foreign key referencing the POSTING that was interviewed for.
 
-      - name: users # applies to connectors created on or after 2024-07-27
+      - name: users
         identifier: "{{ var('lever_users_identifier', 'users')}}"
-        description: Table of Lever users (anyone who has been invited to join the recruiting efforts).
-        config:
-          freshness: null
-        columns:
-          - name: id
-            description: Unique id of the user. 
-          - name: _fivetran_deleted
-            description: Boolean that is true if the user has been soft-deleted. 
-          - name: access_role
-            description: >
-              The user's access role, which can be 'super admin', 'admin', 'team member', 'limited team member', or 'interviewer'.
-              Information on what the roles entail can be found 
-              [here](https://help.lever.co/hc/en-us/articles/360042645691-What-are-the-differences-between-access-roles-in-Lever-#:~:text=There%20are%205%20different%20access,information%2C%20and%20permission%20granting%20privileges).
-          - name: created_at
-            description: Timestamp of when the user was created. 
-          - name: deactivated_at
-            description: Timestamp of when the user was deactivated (null for active users). 
-          - name: email
-            description: The user's email address.
-          - name: external_directory_id
-            description: Unique ID of the user in an external HR directory, if provided.
-          - name: name
-            description: User's preferred name.
-          - name: photo
-            description: URL for user's gravatar, if enabled.
-          - name: username
-            description: Username, extracted from user's email address.
-
-      - name: user # applies to connectors created before 2024-07-27
-        identifier: "{{ var('lever_user_identifier', 'user')}}"
         description: Table of Lever users (anyone who has been invited to join the recruiting efforts).
         config:
           freshness: null
@@ -213,17 +183,6 @@ sources:
 
       - name: interview_user # applies to connectors created on or after 2024-07-27
         identifier: "{{ var('lever_interview_user_identifier', 'interview_user')}}"
-        description: Table relating interviews to their interviewers.
-        config:
-          freshness: null
-        columns:
-          - name: interview_id
-            description: Foreign key referencing the INTERVIEW that was given.
-          - name: user_id 
-            description: Foreign key referencing the USER that interviewed the candidate.
-
-      - name: interviewer_user # applies to connectors created before 2024-07-27
-        identifier: "{{ var('lever_interviewer_user_identifier', 'interviewer_user')}}"
         description: Table relating interviews to their interviewers.
         config:
           freshness: null
