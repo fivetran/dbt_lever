@@ -11,14 +11,11 @@ fields as (
         {{
             fivetran_utils.fill_staging_columns(
                 source_columns=adapter.get_columns_in_relation(ref('stg_lever__interviewer_user_tmp')),
-                staging_columns=get_interviewer_user_columns()
+                staging_columns=get_interview_user_columns()
             )
         }}
 
-        {{ fivetran_utils.source_relation(
-            union_schema_variable='lever_union_schemas', 
-            union_database_variable='lever_union_databases') 
-        }}
+        {{ fivetran_utils.apply_source_relation(package_name='lever') }}
 
     from base
 ),

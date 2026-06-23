@@ -1,12 +1,26 @@
+{% if var('lever_union_schemas', []) | length > 0 or var('lever_union_databases', []) | length > 0 %}
+
 {{
     fivetran_utils.union_data(
-        table_identifier='users' if var('lever__using_users', lever.does_table_exist('users')) else 'user', 
+        table_identifier='users', 
         database_variable='lever_database', 
         schema_variable='lever_schema', 
         default_database=target.database,
         default_schema='lever',
-        default_variable='users' if var('lever__using_users', lever.does_table_exist('users')) else 'user',
+        default_variable='users',
         union_schema_variable='lever_union_schemas',
         union_database_variable='lever_union_databases'
     )
 }}
+
+{% else %}
+
+{{
+    fivetran_utils.union_connections(
+        connection_dictionary='lever_sources',
+        single_source_name='lever',
+        single_table_name='users'
+    )
+}}
+
+{% endif %}

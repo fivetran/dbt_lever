@@ -26,7 +26,7 @@ opp_stage_history as (
         updater_user_id,
         to_stage_index as stage_index_in_pipeline,
         lead(updated_at) over (
-            partition by opportunity_id {{', source_relation' if var('lever_union_schemas', false) or var('lever_union_databases', false) }} 
+            partition by opportunity_id {{ fivetran_utils.partition_by_source_relation(package_name='lever') }} 
             order by updated_at asc) as valid_ending_at
 
     from {{ ref('stg_lever__opportunity_stage_history') }}

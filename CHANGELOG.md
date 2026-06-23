@@ -1,3 +1,24 @@
+# dbt_lever v1.3.0
+
+[PR #36](https://github.com/fivetran/dbt_lever/pull/36) includes the following updates:
+
+## Schema/Data Changes (--full-refresh required after upgrading)
+**2 total changes • 1 possible breaking change**
+
+| Data Model(s) | Change type | Old | New | Notes |
+| ------------- | ----------- | --- | --- | ----- |
+| All models | `source_relation` column (when using a single lever schema) | Empty string (`''`) | `<database>.<schema>` | |
+| `user`<br>`interviewer_user` | Sunset legacy source tables | | | See note below |
+
+> As of [August 2025](https://fivetran.com/docs/connectors/applications/lever/changelog#august2025), all Lever connectors use the current `users` and `interview_user` table names. The `lever__using_users` and `lever__using_interview_user` variables have been removed alongside the legacy source definitions.
+
+## Feature Updates
+- Introduces the new (recommended) `lever_sources` variable for more robust union data configuration. The old `lever_union_schemas` and `lever_union_databases` variables will still be supported. See the [README](https://github.com/fivetran/dbt_lever/tree/main#define-database-and-schema-variables) for specific details.
+
+## Under the Hood
+- Adds the `fivetran_using_source_casing` variable for case-sensitive destination support. When enabled, downstream transformations respect source casing to ensure consistent results. See the [Additional Configurations](https://github.com/fivetran/dbt_lever/#source-casing-for-case-sensitive-destinations) section of the README for details.
+- Introduces `fivetran_utils.partition_by_source_relation` to conditionally include `source_relation` in partition clauses only when multiple sources are configured.
+
 # dbt_lever v1.2.0
 
 [PR #33](https://github.com/fivetran/dbt_lever/pull/33) includes the following updates:

@@ -1,4 +1,4 @@
-{% macro get_user_columns() %}
+{% macro get_users_columns() %}
 
 {% set columns = [
     {"name": "_fivetran_deleted", "datatype": "boolean"},

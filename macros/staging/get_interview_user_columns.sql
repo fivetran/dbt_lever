@@ -1,4 +1,4 @@
-{% macro get_interviewer_user_columns() %}
+{% macro get_interview_user_columns() %}
 
 {% set columns = [
     {"name": "_fivetran_synced", "datatype": dbt.type_timestamp()},
