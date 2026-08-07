@@ -1,3 +1,11 @@
+# dbt_lever v1.3.1
+
+[PR #38](https://github.com/fivetran/dbt_lever/pull/38) includes the following updates:
+
+## Feature Updates
+- Adds DuckDB as a supported destination.
+
+
 # dbt_lever v1.3.0
 
 [PR #36](https://github.com/fivetran/dbt_lever/pull/36) includes the following updates:
