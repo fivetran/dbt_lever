@@ -10,7 +10,7 @@ opportunity_sources as (
     select
         source_relation,
         opportunity_id,
-        {{ fivetran_utils.string_agg('source', "', '") }} as sources
+        {{ dbt.listagg('source', "', '") }} as sources
 
     from {{ ref('stg_lever__opportunity_source') }}
 

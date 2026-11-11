@@ -3,7 +3,7 @@ with contact_phones as (
     select
         source_relation,
         contact_id,
-        {{ fivetran_utils.string_agg("phone_type || ': ' || phone_number" , "', '") }} as phones
+        {{ dbt.listagg("phone_type || ': ' || phone_number" , "', '") }} as phones
 
     from {{ ref('stg_lever__contact_phone') }}
 
@@ -15,7 +15,7 @@ contact_emails as (
     select
         source_relation,
         contact_id,
-        {{ fivetran_utils.string_agg("'<' || email || '>'" , "', '") }} as emails
+        {{ dbt.listagg("'<' || email || '>'" , "', '") }} as emails
 
     from {{ ref('stg_lever__contact_email') }}
 
