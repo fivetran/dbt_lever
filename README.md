@@ -65,7 +65,7 @@ Include the following lever package version in your `packages.yml` file:
 ```yaml
 packages:
   - package: fivetran/lever
-    version: [">=1.4.0", "<1.5.0"]
+    version: [">=1.5.0", "<1.6.0"]
 ```
 
 > All required sources and staging models are now bundled into this transformation package. Do not include `fivetran/lever_source` in your `packages.yml` since this package has been deprecated.
