@@ -90,6 +90,8 @@ models:
         description: Number of days that have passed between the creation of this opportunity and the beginning of this interview. 
       - name: has_advanced_since_interview
         description: Boolean that is true if the opportunity advanced to another stage after this interview ended. 
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
 
   - name: lever__opportunity_enhanced
     description: Table of unique opportunities.
@@ -246,6 +248,8 @@ models:
         description: Timestamp of when the opportunity's most recent (or perhaps future) interview was scheduled for. 
       - name: has_interviewed_w_hiring_manager
         description: Boolean that is true if the opportunity has interviewed with the hiring manager.
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
 
   
   - name: lever__opportunity_stage_history
@@ -361,6 +365,8 @@ models:
         description: Comma-separated aggregated list of tags.
       - name: posting_hiring_manager_name
         description: Full name of the user who is hiring manager of this posting. 
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
       
   - name: lever__requisition_enhanced
     description: Table capturing requisitions, if enabled.
@@ -425,3 +431,5 @@ models:
         description: Total count of extended offers associated with this requisition. Note - includes offers regardless of their status. 
       - name: has_offer
         description: Boolean that is true if the requisition has any offer associated with it. 
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"

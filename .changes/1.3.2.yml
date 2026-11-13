@@ -1,0 +1,3 @@
+version: 1.3.2
+under_the_hood:
+  - description: "Documents the `_fivetran_synced` column across all staging and enhanced models so that it is generated in the docs and picked up by Quickstart."
