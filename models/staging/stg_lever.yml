@@ -6,6 +6,12 @@ models:
       Opportunities represent each candidates' individual journeys/candidacies through
       your pipeline. An individual candidate might have multiple opportunties if
       applying to multiple job postings. 
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - opportunity_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -69,6 +75,12 @@ models:
 
   - name: stg_lever__posting
     description: Table capturing job postings that candidates can apply to.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - posting_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -112,6 +124,13 @@ models:
 
   - name: stg_lever__posting_tag
     description: Table associating job postings with all associated tags.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - posting_id
+              - tag_name
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -124,6 +143,13 @@ models:
 
   - name: stg_lever__posting_interview
     description: Table relating job postings to any interviews undertaken for the role.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - posting_id
+              - interview_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -134,6 +160,12 @@ models:
 
   - name: stg_lever__user
     description: Table of Lever users (anyone who has been invited to join the recruiting efforts).
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - user_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -159,6 +191,13 @@ models:
 
   - name: stg_lever__interviewer_user
     description: Table relating interviews to their interviewers.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - interview_id
+              - user_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -169,6 +208,13 @@ models:
 
   - name: stg_lever__opportunity_stage_history
     description: Table capturing the different stages that each opportunity has passed through in the pipeline.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - opportunity_id
+              - updated_at
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -187,6 +233,12 @@ models:
 
   - name: stg_lever__stage
     description: Table of steps in the recruiting workflow of your hiring pipeline.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - stage_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -199,6 +251,13 @@ models:
 
   - name: stg_lever__opportunity_source
     description: Table relating opportunities to all of their individual sources. 
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - opportunity_id
+              - source
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -211,6 +270,13 @@ models:
 
   - name: stg_lever__opportunity_tag 
     description: Table relating opportunities to their tags.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - opportunity_id
+              - tag_name
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -223,6 +289,12 @@ models:
 
   - name: stg_lever__application
     description: Table capturing candidate applications to job postings. 
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - application_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -266,6 +338,13 @@ models:
 
   - name: stg_lever__offer
     description: Table of the data sent to an opportunity for a position they have been offerred.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - offer_id
+              - opportunity_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -295,6 +374,12 @@ models:
     description: >
       Table of reasons for archiving candidates, exiting them from the hiring pipeline (after hiring or rejecting 
       for a particular reason).
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - archive_reason_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -307,6 +392,12 @@ models:
 
   - name: stg_lever__interview
     description: Table capturing individual interviews (which comprise panels).
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - interview_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -351,6 +442,13 @@ models:
 
   - name: stg_lever__interview_feedback
     description: Table associating interviews with their feedback forms. 
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - feedback_form_id
+              - interview_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -366,6 +464,12 @@ models:
   - name: stg_lever__feedback_form
     description: >
       Table capturing feedback forms that have been completed after interviewing a candidate. 
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - feedback_form_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -398,6 +502,14 @@ models:
 
   - name: stg_lever__feedback_form_field
     description: Table capturing the values provided for individual fields within interview feedback forms.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - feedback_form_id
+              - field_index
+              - value_index
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -426,6 +538,12 @@ models:
 
   - name: stg_lever__requisition
     description: Table capturing requisitions made in/pushed to lever.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - requisition_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -476,6 +594,13 @@ models:
 
   - name: stg_lever__requisition_posting
     description: Table relating requsitions to postings.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - posting_id
+              - requisition_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -490,6 +615,13 @@ models:
 
   - name: stg_lever__contact_email
     description: Table capturing the emails associated with a contact. 
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - contact_id
+              - email
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -502,6 +634,13 @@ models:
 
   - name: stg_lever__contact_phone 
     description: Table capturing the phone numbers associated with a contact. 
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - contact_id
+              - index
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -519,6 +658,13 @@ models:
       # add requisition_offer, resume, contact_link tests
   - name: stg_lever__requisition_offer
     description: Table relating offers to their associated requisitions.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - offer_id
+              - requisition_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -535,6 +681,13 @@ models:
   
   - name: stg_lever__contact_link
     description: Table of all links associated with an opportunity contact (ie linkedin, github repos, personal websites).
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - contact_id
+              - link
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -547,6 +700,12 @@ models:
       
   - name: stg_lever__resume
     description: Table capturing resumes submitted by opportunities.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"

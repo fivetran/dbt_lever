@@ -15,7 +15,7 @@ This dbt package transforms data from Fivetran's Lever connector into analytics-
   - [DAG](https://fivetran.github.io/dbt_lever/#!/overview?g_v=1)
   - [Changelog](https://github.com/fivetran/dbt_lever/blob/main/CHANGELOG.md)
 - dbt Core™ supported versions
-  - `>=1.3.0, <3.0.0`
+  - `>=1.10.0, <3.0.0`
 
 ## What does this dbt package do?
 This package enables you to understand trends in recruiting, interviewing, and hiring at your company. It creates enriched models with metrics focused on opportunities, interviews, job postings, and requisitions.
@@ -65,7 +65,7 @@ Include the following lever package version in your `packages.yml` file:
 ```yaml
 packages:
   - package: fivetran/lever
-    version: [">=1.3.0", "<1.4.0"]
+    version: [">=1.4.0", "<1.5.0"]
 ```
 
 > All required sources and staging models are now bundled into this transformation package. Do not include `fivetran/lever_source` in your `packages.yml` since this package has been deprecated.
@@ -194,7 +194,7 @@ The Fivetran team maintaining this package only maintains the [latest version](h
 ### Contributions
 A small team of analytics engineers at Fivetran develops these dbt packages. However, the packages are made better by community contributions.
 
-We highly encourage and welcome contributions to this package. Learn how to contribute to a package in dbt's [Contributing to an external dbt package article](https://discourse.getdbt.com/t/contributing-to-a-dbt-package/657).
+We highly encourage and welcome contributions to this package. Learn how to contribute to a package by reading the guidelines in our [CONTRIBUTING.md](https://github.com/fivetran/dbt_lever/blob/main/CONTRIBUTING.md) document.
 
 <!--section-end-->
 
