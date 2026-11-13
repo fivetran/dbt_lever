@@ -1,3 +1,10 @@
+# dbt_lever v1.3.2
+
+[PR #42](https://github.com/fivetran/dbt_lever/pull/42) includes the following updates:
+
+## Under the Hood
+- Documents the `_fivetran_synced` column across all staging and enhanced models so that it is generated in the docs and picked up by Quickstart.
+
 # dbt_lever v1.3.1
 
 [PR #38](https://github.com/fivetran/dbt_lever/pull/38) includes the following updates:
