@@ -7,7 +7,7 @@
 - Adds `dbt_utils.unique_combination_of_columns` tests to staging and end models. If a test fails, please [open an issue](https://github.com/fivetran/dbt_lever/issues/new/choose).
 
 ## Under the Hood
-- Documents the `_fivetran_synced` column across all staging and enhanced models so that it is generated in the docs and picked up by Quickstart.
+- Updates yml column documentation to match model output.
 
 # dbt_lever v1.3.1
 
