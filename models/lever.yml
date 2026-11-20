@@ -31,7 +31,7 @@ models:
         description: Google calendar event url. 
       - name: interview_id
         description: Unique ID of the interview. 
-        tests:
+        data_tests:
           - not_null
       - name: location
         description: >
@@ -113,7 +113,7 @@ models:
         description: "{{ doc('source_relation') }}"
       - name: opportunity_id
         description: Unique ID of the opportunity.
-        tests:
+        data_tests:
           - not_null
       - name: archived_at
         description: Timestamp of when the opportunity was archived. 
@@ -332,7 +332,7 @@ models:
         description: "{{ doc('source_relation') }}"
       - name: posting_id
         description: Unique ID of the job posting. 
-        tests:
+        data_tests:
           - not_null
       - name: job_commitment
         description: Tag for job position work type (e.g. Full-time, Part-time, Internship).
@@ -407,7 +407,7 @@ models:
         description: "{{ doc('source_relation') }}"
       - name: requisition_id
         description: Unique id of the requisition.
-        tests:
+        data_tests:
           - not_null
       - name: is_backfill
         description: > 
