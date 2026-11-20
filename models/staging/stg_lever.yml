@@ -6,12 +6,18 @@ models:
       Opportunities represent each candidates' individual journeys/candidacies through
       your pipeline. An individual candidate might have multiple opportunties if
       applying to multiple job postings. 
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - opportunity_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: opportunity_id
         description: Unique ID of the opportunity.
-        tests:
+        data_tests:
           - not_null
       - name: archived_at
         description: Timestamp of when the opportunity was archived. 
@@ -66,15 +72,23 @@ models:
         description: Foreign key referencing the ID of the current stage of the opportunity.
       - name: updated_at
         description: Timestamp of when the opportunity was last updated in lever.
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
 
   - name: stg_lever__posting
     description: Table capturing job postings that candidates can apply to.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - posting_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: posting_id
         description: Unique ID of the job posting.
-        tests:
+        data_tests:
           - not_null
       - name: job_commitment
         description: Tag for job position work type (e.g. Full-time, Part-time, Internship).
@@ -109,21 +123,39 @@ models:
         description: Title of the job posting role.
       - name: updated_at
         description: Timestamp of when the posting was last updated.
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
 
   - name: stg_lever__posting_tag
     description: Table associating job postings with all associated tags.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - posting_id
+              - tag_name
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: posting_id
         description: Foreign key referencing the id of the job POSTING.
-        tests:
+        data_tests:
           - not_null
       - name: tag_name
         description: Text of the posting's individual tag.
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
 
   - name: stg_lever__posting_interview
     description: Table relating job postings to any interviews undertaken for the role.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - posting_id
+              - interview_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -131,15 +163,23 @@ models:
         description: Foreign key referencing the INTERVIEW for this job posting.
       - name: posting_id
         description: Foreign key referencing the POSTING that was interviewed for.
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
 
   - name: stg_lever__user
     description: Table of Lever users (anyone who has been invited to join the recruiting efforts).
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - user_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: user_id
         description: Unique id of the user. 
-        tests:
+        data_tests:
           - not_null
       - name: access_role
         description: >
@@ -156,9 +196,18 @@ models:
         description: Unique ID of the user in an external HR directory, if provided.
       - name: full_name
         description: User's preferred name.
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
 
   - name: stg_lever__interviewer_user
     description: Table relating interviews to their interviewers.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - interview_id
+              - user_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -166,15 +215,24 @@ models:
         description: Foreign key referencing the INTERVIEW that was given.
       - name: user_id 
         description: Foreign key referencing the USER that interviewed the candidate.
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
 
   - name: stg_lever__opportunity_stage_history
     description: Table capturing the different stages that each opportunity has passed through in the pipeline.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - opportunity_id
+              - updated_at
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: opportunity_id
         description: Foreign key referencing the id of the OPPORTUNITY.
-        tests:
+        data_tests:
           - not_null
       - name: updated_at
         description: Timestamp of when the opportunity was changed to this stage.
@@ -184,51 +242,85 @@ models:
         description: Foreign key referencing the USER who changed the opportunity stage.
       - name: to_stage_index
         description: The index of the stage in the pipeline at the time the stage change occurred. 
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
 
   - name: stg_lever__stage
     description: Table of steps in the recruiting workflow of your hiring pipeline.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - stage_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: stage_id
         description: Unique id of the stage.
-        tests:
+        data_tests:
           - not_null
       - name: stage_name
         description: Title of the stage.
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
 
   - name: stg_lever__opportunity_source
     description: Table relating opportunities to all of their individual sources. 
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - opportunity_id
+              - source
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: opportunity_id
         description: Foreign key referencing the OPPORTUNITY that was sourced. 
-        tests:
+        data_tests:
           - not_null
       - name: source
         description: Where this opportunity was sourced from (ie 'linkedin').
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
 
   - name: stg_lever__opportunity_tag 
     description: Table relating opportunities to their tags.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - opportunity_id
+              - tag_name
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: opportunity_id
         description: Foreign key referencing the OPPORTUNITY that was tagged.
-        tests:
+        data_tests:
           - not_null
       - name: tag_name
         description: Text of the tag associated with this opportunity.
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
 
   - name: stg_lever__application
     description: Table capturing candidate applications to job postings. 
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - application_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: application_id
         description: Unique ID of the application.
-        tests:
+        data_tests:
           - not_null
       - name: archived_at
         description: Timestamp of when the application was last archived.
@@ -263,15 +355,24 @@ models:
           posting through your company's jobs page.
       - name: opportunity_id
         description: Foreign key referencing the id of the OPPORTUNITY associated with this application.
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
 
   - name: stg_lever__offer
     description: Table of the data sent to an opportunity for a position they have been offerred.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - offer_id
+              - opportunity_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: offer_id
         description: Unique ID of the offer.
-        tests:
+        data_tests:
           - not_null
       - name: opportunity_id 
         description: Unique ID of the opportunity. Will use candidate_id if opportunity_id is not present.
@@ -290,29 +391,45 @@ models:
           opened - the candidate has opened the offer
           denied - the candidate denied the offer
           signed - the candidate signed the offer
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
 
   - name: stg_lever__archive_reason 
     description: >
       Table of reasons for archiving candidates, exiting them from the hiring pipeline (after hiring or rejecting 
       for a particular reason).
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - archive_reason_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: archive_reason_id
         description: Unique id of the archive reason.
-        tests:
+        data_tests:
           - not_null
       - name: archive_reason_title
         description: Name of the archive reason as shown in the Lever UI. 
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
 
   - name: stg_lever__interview
     description: Table capturing individual interviews (which comprise panels).
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - interview_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: interview_id
         description: Unique ID of the interview. 
-        tests:
+        data_tests:
           - not_null
       - name: canceled_at
         description: Timestamp of when the interview was canceled, if canceled.
@@ -348,30 +465,47 @@ models:
         description: Name of timezone in which interview was scheduled to occur.
       - name: opportunity_id
         description: Foreign key referencing the OPPORTUNITY being interviewed for. 
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
 
   - name: stg_lever__interview_feedback
     description: Table associating interviews with their feedback forms. 
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - feedback_form_id
+              - interview_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: feedback_form_id
         description: Foreign key referencing the FEEDBACK_FORM submitted for this interview.
-        tests:
+        data_tests:
           - not_null
       - name: interview_id  
         description: Foreign key referencing the INTERVIEW that was given feedback for.
-        tests:
+        data_tests:
           - not_null
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
 
   - name: stg_lever__feedback_form
     description: >
       Table capturing feedback forms that have been completed after interviewing a candidate. 
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - feedback_form_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: feedback_form_id
         description: Unique id of the feedback form. 
-        tests:
+        data_tests:
           - not_null
       - name: completed_at
         description: Timestamp of when the feedback form was completed.
@@ -395,15 +529,25 @@ models:
         description: Form type. Feedback forms are of type interview.
       - name: opportunity_id
         description: Foreign key referencing the OPPORTUNITY that the candidate was interviewed for.
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
 
   - name: stg_lever__feedback_form_field
     description: Table capturing the values provided for individual fields within interview feedback forms.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - feedback_form_id
+              - field_index
+              - value_index
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: feedback_form_id
         description: Foreign key referencing the FEEDBACK_FORM that this field is found in. 
-        tests:
+        data_tests:
           - not_null
       - name: field_index
         description: Numerical index of the field's position in the feedback form. 
@@ -423,16 +567,24 @@ models:
         description: If the field is a numeric, this is the value. 
       - name: value_text
         description: If the field is a text field, this is the content of the value. 
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
 
   - name: stg_lever__requisition
     description: Table capturing requisitions made in/pushed to lever.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - requisition_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
-    # requistion can have custom fields 
+      # requisition can have custom fields
       - name: requisition_id
         description: Unique id of the requisition.
-        tests:
+        data_tests:
           - not_null
       - name: is_backfill
         description: > 
@@ -473,41 +625,68 @@ models:
         description: The status of the requisition. Can be 'open', 'onHold', 'closed', or 'draft'.
       - name: job_team
         description: The team associated with the requisition
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
 
   - name: stg_lever__requisition_posting
     description: Table relating requsitions to postings.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - posting_id
+              - requisition_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: posting_id
         description: Foreign key referencing the POSTING created for this requisition.
-        tests:
+        data_tests:
           - not_null
       - name: requisition_id
         description: Foreign key referencing the REQUISITION associated with this posting. 
-        tests:
+        data_tests:
           - not_null
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
 
   - name: stg_lever__contact_email
     description: Table capturing the emails associated with a contact. 
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - contact_id
+              - email
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: contact_id
         description: Unique ID of the contact in Lever. 
-        tests:
+        data_tests:
           - not_null
       - name: email 
         description: Contact's email address.
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
 
   - name: stg_lever__contact_phone 
     description: Table capturing the phone numbers associated with a contact. 
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - contact_id
+              - index
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: contact_id
         description: Unique ID of the contact in Lever. 
-        tests:
+        data_tests:
           - not_null
       - name: index
         description: The index of this phone number for this contact (there can be multiple phone numbers per contact).
@@ -515,44 +694,70 @@ models:
         description: Type of phone number, either "mobile", "home", "work", "skype", or "other".
       - name: phone_number
         description: The contact's provided phone number.
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
   
       # add requisition_offer, resume, contact_link tests
   - name: stg_lever__requisition_offer
     description: Table relating offers to their associated requisitions.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - offer_id
+              - requisition_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: offer_id
         description: Foriegn key referencing the OFFER for the requisition. 
-        tests:
+        data_tests:
           - not_null
       - name: requisition_id
         description: Foriegn key referencing the REQUISITION which the offer was made against. 
-        tests:
+        data_tests:
           - not_null
       - name: _fivetran_deleted
         description: Boolean that is true if the offer-requisition relationship has been soft-deleted.
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
   
   - name: stg_lever__contact_link
     description: Table of all links associated with an opportunity contact (ie linkedin, github repos, personal websites).
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - contact_id
+              - link
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: contact_id
         description: Unique id of the contact associated with one or more opportunities.
-        tests:
+        data_tests:
           - not_null
       - name: link
         description: Url of the individual link.
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
       
   - name: stg_lever__resume
     description: Table capturing resumes submitted by opportunities.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: id  
         description: Unique id of the resume file. 
-        tests:
+        data_tests:
           - not_null
       - name: created_at
         description: Timestamp of when the resume was created in Lever. 
@@ -566,3 +771,5 @@ models:
         description: Timestamp of when the file was uploaded.
       - name: opportunity_id
         description: Foreign key referencing the OPPORTUNITY associated with this resume. 
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"

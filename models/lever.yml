@@ -3,6 +3,13 @@ version: 2
 models:
   - name: lever__interview_enhanced
     description: Table in which each row is a unique interview-feedback combo. Interviews without feedback appear here as well.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - feedback_form_id
+              - interview_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -24,7 +31,7 @@ models:
         description: Google calendar event url. 
       - name: interview_id
         description: Unique ID of the interview. 
-        tests:
+        data_tests:
           - not_null
       - name: location
         description: >
@@ -90,15 +97,23 @@ models:
         description: Number of days that have passed between the creation of this opportunity and the beginning of this interview. 
       - name: has_advanced_since_interview
         description: Boolean that is true if the opportunity advanced to another stage after this interview ended. 
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
 
   - name: lever__opportunity_enhanced
     description: Table of unique opportunities.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - opportunity_id
     columns: 
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: opportunity_id
         description: Unique ID of the opportunity.
-        tests:
+        data_tests:
           - not_null
       - name: archived_at
         description: Timestamp of when the opportunity was archived. 
@@ -246,10 +261,19 @@ models:
         description: Timestamp of when the opportunity's most recent (or perhaps future) interview was scheduled for. 
       - name: has_interviewed_w_hiring_manager
         description: Boolean that is true if the opportunity has interviewed with the hiring manager.
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
 
   
   - name: lever__opportunity_stage_history
     description: Table capturing each stage that an opportunity has advanced too.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - opportunity_id
+              - valid_from
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -297,12 +321,18 @@ models:
 
   - name: lever__posting_enhanced
     description: Table capturing job postings.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - posting_id
     columns: 
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: posting_id
         description: Unique ID of the job posting. 
-        tests:
+        data_tests:
           - not_null
       - name: job_commitment
         description: Tag for job position work type (e.g. Full-time, Part-time, Internship).
@@ -361,15 +391,23 @@ models:
         description: Comma-separated aggregated list of tags.
       - name: posting_hiring_manager_name
         description: Full name of the user who is hiring manager of this posting. 
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
       
   - name: lever__requisition_enhanced
     description: Table capturing requisitions, if enabled.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - requisition_id
     columns: 
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: requisition_id
         description: Unique id of the requisition.
-        tests:
+        data_tests:
           - not_null
       - name: is_backfill
         description: > 
@@ -425,3 +463,5 @@ models:
         description: Total count of extended offers associated with this requisition. Note - includes offers regardless of their status. 
       - name: has_offer
         description: Boolean that is true if the requisition has any offer associated with it. 
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
